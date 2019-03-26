@@ -1,0 +1,15 @@
+.bg-light {
+	background-color: white !important;
+}
+
+body {
+	background-color: silver !important;
+}
+
+.navbar {
+	padding: 0;
+}
+
+input.form-control {
+	padding: 6px !important;
+}

@@ -1,0 +1,105 @@
+h1 {
+  font-size: 2rem !important;
+  font-weight: 700;
+}
+
+a.nav-link {
+  padding: 10px;
+  border-radius: 3px;
+}
+a.nav-link:hover {
+  background-color: #f8f9fa;
+}
+
+.navbar-brand {
+  width: 10%;
+}
+
+.form-control {
+  padding: 6px 15px;
+  background: #f8f9fa;
+}
+
+button.btn {
+  padding: 18px 40px;
+}
+
+.mg-btn {
+  padding: 5px 10px;
+  text-align: center;
+  cursor: pointer;
+  background-color: #6610f2;
+  color: #fff;
+}
+.mg-btn i {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+.mg-btn:hover {
+  background-color: #3d1184;
+}
+
+.modal-dialog {
+  max-width: 720px !important;
+}
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 720px !important;
+  }
+}
+.search-area .card {
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.search-area .card h6 {
+  font-size: 0.6rem;
+}
+.search-area .card .card-body {
+  padding: 30px 40px;
+}
+.search-area .card:hover {
+  background: #f8f9fa;
+}
+.search-area .card .actions-area a {
+  color: #212529;
+  padding: 10px 15px;
+  margin-right: 10px;
+}
+.search-area .card .actions-area a:hover {
+  border-radius: 50px;
+}
+.search-area .card .actions-area a:hover i.fa-pencil-alt {
+  color: #ffc107;
+}
+.search-area .card .actions-area a:hover i.fa-trash-alt {
+  color: #dc3545;
+}
+
+.actions-area {
+  text-align: right;
+}
+
+.login-area {
+  width: 20%;
+  margin: 100px auto;
+}
+.login-area img {
+  width: 20%;
+}
+
+.container {
+  width: 1280px !important;
+}
+
+footer {
+  align-items: center;
+  position: fixed;
+  bottom: 20px;
+}
+
+.modal-dialog {
+  max-width: 720px !important;
+}
+
+/*# sourceMappingURL=main.css.map */

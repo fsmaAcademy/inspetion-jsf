@@ -18,16 +18,16 @@ public class Repository<T> implements Serializable {
 		this.em = em;
 	}
 
-	public void adiciona(T usuario) {
-		em.persist(usuario);
+	public void adiciona(T t) {
+		em.persist(t);
 	}
 
-	public void remove(T usuario) {
-		em.remove(em.merge(usuario));
+	public void remove(T t) {
+		em.remove(em.merge(t));
 	}
 
-	public void atualiza(T usuario) {
-		em.merge(usuario);
+	public void atualiza(T t) {
+		em.merge(t);
 	}
 
 	public List<T> buscar() {

@@ -6,10 +6,11 @@ import br.com.fsma.projeto_web.entities.Estado;
 
 public interface IEstadoRepository {
 	public List<Estado> buscar();
-	public Estado criar(Estado estado);
-	public Estado atualizar(Estado estado);
-	public Estado remover(Estado estado);
+	public void adiciona(Estado estado);
+	public void atualiza(Estado estado);
+	public void remove(Estado estado);
 	public Estado buscarPorId(Long id);
-	Estado buscarPorUf(String uf);
-	public boolean existe(Estado estado);
+	
+	public Estado buscaPorUf(String uf);
+	public List<Estado> buscarPorNomeOuUf(String criterio);
 }

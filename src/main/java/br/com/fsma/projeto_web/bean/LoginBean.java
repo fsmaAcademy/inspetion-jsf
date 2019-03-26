@@ -39,15 +39,17 @@ public class LoginBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		System.out.println("LoginBean.init();");
+//		System.out.println("LoginBean.init();");
 		usuario = (Usuario) session.getAttribute(USUARIO_LOGADO);
 		if (usuario == null) {
 			usuario = new Usuario();
+			usuario.setLogin("admin");
+			usuario.setSenha("admin");
 		}
 	}
 	
 	@Transacional
-	public String loga() {
+	public String getLoga() {
 		Usuario usuarioAutenticado  = usuarioDao.buscaUsuarioPelaAutenticacao(this.usuario);
 		if (usuarioAutenticado != null) {
 			usuarioAutenticado.setDataDoUltimoAcesso(LocalDateTime.now());

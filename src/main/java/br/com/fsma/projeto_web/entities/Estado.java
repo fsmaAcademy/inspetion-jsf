@@ -25,6 +25,14 @@ public class Estado implements Serializable {
 	@Column(name = "nome", nullable = false, unique = true, length = 50)
 	private String nome;
 
+	public Estado(String nome, String uf) {
+		this.nome = nome;
+		this.uf = uf;
+	}
+		
+	public Estado() {
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -51,7 +59,7 @@ public class Estado implements Serializable {
 
 	@Override
 	public String toString() {
-		return "FederateUnit [id=" + id + ", ufs=" + uf + ", nome=" + nome + "]";
+		return "Estado [id=" + id + ", uf=" + uf + ", nome=" + nome + "]";
 	}
 
 	@Override

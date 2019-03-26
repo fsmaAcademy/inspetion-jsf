@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta charset="UTF-8" />
+	<title>Projeto Web - Home</title>
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+		crossorigin="anonymous" />
+	<link type="text/css" rel="stylesheet"
+		href="#{facesContext.externalContext.requestContextPath}/resources/css/main.css" />
+	<link type="text/css" rel="stylesheet"
+		href="#{facesContext.externalContext.requestContextPath}/resources/css/estilo.css" />
+</h:head>
+<h:body>
+
+	<ui:composition template="../templates/template.xhtml">
+
+		<ui:define name="content">
+
+			<section class="filter-area">
+			<div class="row">
+				<div class="col-3">
+					<h1>Fiscalização</h1>
+				</div>
+				<div class="col-9">
+					<form action="">
+						<div class="d-flex flex-row justify-content-end">
+							<button class="btn btn-primary" id="btn-reg-fiscalizacao"
+								type="button">Registrar nova</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<hr />
+			</section>
+
+
+		</ui:define>
+
+	</ui:composition>
+
+</h:body>
+
+</html>

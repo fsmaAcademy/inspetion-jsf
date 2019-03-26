@@ -4,73 +4,99 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaQuery;
 
 import br.com.fsma.projeto_web.entities.Estado;
 import br.com.fsma.projeto_web.repositories.interfaces.IEstadoRepository;
 
+@Named
+@RequestScoped
 public class EstadoRepositoryImpl implements Serializable, IEstadoRepository {
 	
 	private static final long serialVersionUID = 1L;
 
+	private Repository<Estado> repository;
+	
 	@Inject
 	private EntityManager em;
-
-	private Repository<Estado> _repository;
-	
 	
 	@PostConstruct
-	void init() {
-		_repository = new Repository<Estado>(this.em, Estado.class);
+	public void init() {
+		repository = new Repository<Estado>(this.em, Estado.class);
 	}
 	
-	public Estado criar(Estado estado) {
-		_repository.adiciona(estado);
-		return estado;
+	@Override
+	public List<Estado> buscar() {
+		CriteriaQuery<Estado> query = em.getCriteriaBuilder().createQuery(Estado.class);
+		query.select(query.from(Estado.class));
+		List<Estado> lista = em.createQuery(query).getResultList();
+
+		return lista;
+	}
+	
+	@Override
+	public void adiciona(Estado estado) {
+		System.out.println(estado);
+		repository.adiciona(estado);
 	}
 
-	public Estado atualizar(Estado estado){
+	@Override
+	public void atualiza(Estado estado){
 		em.merge(estado);
-		return estado;
+	}
+	
+	@Override
+	public void remove(Estado estado) {
+		repository.remove(estado);
 	}
 
-	public Estado remover(Estado estado) {
-		_repository.remove(estado);
-		return estado;
-	}
-
+	@Override
 	public Estado buscarPorId(Long id) {
-		return _repository.buscaPorId(id);
+		Estado estado = repository.buscaPorId(id);
+		return estado;
 	}
 
 	@Override
-	public Estado buscarPorUf(String uf) {
-		TypedQuery<Estado> query = em.createQuery("SELECT estado FROM Estado uf WHERE estado.uf=:pUf", Estado.class);
-		query.setParameter("pUf", uf);
-		return query.getSingleResult();
-	}
+	public List<Estado> buscarPorNomeOuUf(String criterio) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("SELECT e FROM Estado e ");
+		sb.append("WHERE ");
+		sb.append("   e.nome LIKE CONCAT('%',:pCriterio,'%')");
+		sb.append("   or e.uf LIKE CONCAT('%',:pCriterio,'%')");
+		
+		TypedQuery<Estado> query = em.createQuery(sb.toString(), Estado.class);
+		
+		query.setParameter("pCriterio", criterio);
 
-	@Override
-	public boolean existe(Estado uf) {
-		TypedQuery<Estado> query = em.createQuery(
-				"SELECT estado FROM Estado uf WHERE uf.nome = :pNome or estado.uf = :pUf",
-				Estado.class);
-		query.setParameter("pUf", uf.getUf());
-		query.setParameter("pNome", uf.getNome());
 		try {
-			return query.getSingleResult() != null;
+			return query.getResultList();
 		} catch (NoResultException ex) {
-			return false;
+			return null;
 		}
 	}
 
 	@Override
-	public List<Estado> buscar() {
-		return _repository.buscar();
-	}
+	public Estado buscaPorUf(String uf) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(" select e from Estado e ");
+		sb.append(" where ");
+		sb.append("   e.uf = :puf");
+		
+		TypedQuery<Estado> query = em.createQuery(sb.toString(), Estado.class);
+		
+		query.setParameter("puf", uf);
 
+		try {
+			return query.getSingleResult();
+		} catch (NoResultException ex) {
+			return null;
+		}
+	}
 
 }

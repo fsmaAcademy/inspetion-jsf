@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Projeto Web - Home</title>
+
+	<link rel="stylesheet"
+		href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+		integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+		crossorigin="anonymous" />
+
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+		crossorigin="anonymous" />
+
+	<link type="text/css" rel="stylesheet"
+		href="#{facesContext.externalContext.requestContextPath}/resources/css/main.css" />
+</h:head>
+
+<h:body>
+
+	<ui:composition>
+		<!-- Cadastrar Estado -->
+		<h:form id="formCadastraEstado">
+<!-- 			<h:outputLabel value="Nome" /> -->
+<!-- 			<h:outputLabel value="#{estadoBean.estado}" /> -->
+			<p:panel rendered="#{estadoBean.showForm}">
+				<div class="form-group">
+					<h:outputLabel for="Nome" value="Nome" />
+					<h:inputText class="form-control"
+						placeholder="Digite o nome do estado"
+						value="#{estadoBean.estado.nome}" />
+				</div>
+				<div class="form-group">
+					<h:outputLabel for="uf" value="UF" />
+					<h:inputText type="text" class="form-control"
+						placeholder="Digite a unidade federativa"
+						value="#{estadoBean.estado.uf}" />
+				</div>
+				<div class="row">
+					<div class="col-6">
+						<h:commandButton actionListener="#{estadoBean.toggleEditMode()}" class="btn btn-secondary w-100" data-dismiss="modal"
+							value="Cancelar" aria-label="Close" />
+					</div>
+					<div class="col-6">
+						<c:if test="#{estadoBean.updateMode == false}">
+							<h:commandButton
+								class="btn btn-primary w-100"
+								value="Novo Estado"
+								actionListener="#{estadoBean.adiciona}" />					
+						</c:if>
+						<c:if test="#{estadoBean.updateMode == true}">
+							<h:commandButton
+								class="btn btn-primary w-100"
+								value="Atualizar Estado"
+								actionListener="#{estadoBean.atualiza}" />					
+						</c:if>
+					</div>
+				</div>
+
+			</p:panel>
+		</h:form>
+	</ui:composition>
+</h:body>
+
+</html>
+
+
+
+
+
+
+
+
