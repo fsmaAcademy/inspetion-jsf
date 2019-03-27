@@ -90,7 +90,7 @@
 			<c:if test="#{cidadeBean.hasBusca()}">
 				<section class="pesquisa-area mt-5">
 				<p class="alert alert-success">
-					Seus resultados de pesquisa para o estado <span class="text-success">#{cidadeBean.estado}</span>
+					#{cidadeBean.quantidadeDeCidades} resultados de pesquisa para o estado <span class="text-success">#{cidadeBean.estado.nome}</span>
 					com a cidade <span class="text-success">#{cidadeBean.criterio}</span>
 				</p>
 				<div class="mt-4">

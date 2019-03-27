@@ -26,11 +26,17 @@ public class CidadeServiceImpl implements ICidadeService, Serializable {
 	
 	@Override
 	public void adiciona(Cidade cidade) {
+		cidade.setEstado(
+				estadoRepository.buscarPorId(cidade.getEstado().getId())
+				);
 		cidadeRepository.adiciona(cidade);
 	}
 
 	@Override
 	public void atualiza(Cidade cidade) {
+		cidade.setEstado(
+				estadoRepository.buscarPorId(cidade.getEstado().getId())
+				);
 		cidadeRepository.atualiza(cidade);
 	}
 

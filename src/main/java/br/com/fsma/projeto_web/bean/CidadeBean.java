@@ -57,7 +57,6 @@ public class CidadeBean implements Serializable {
 	}
 	@Transacional
 	public void adiciona() {
-		estado = estadoService.buscarPorId(estado.getId());
 		cidade.setEstado(estado);
 		cidadeService.adiciona(cidade);
 		cidade = new Cidade();
@@ -66,6 +65,7 @@ public class CidadeBean implements Serializable {
 	
 	@Transacional
 	public String atualiza() {
+		cidade.setEstado(estado);
 		cidadeService.atualiza(cidade);
 		this.editForm = false;
 		return "/view/endereco/estado/index.xhtml?faces-redirect=true";
