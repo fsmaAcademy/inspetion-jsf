@@ -62,6 +62,10 @@ public class CidadeServiceImpl implements ICidadeService, Serializable {
 		return cidadeRepository.buscaPorNome(nome);
 	}
 	
+	public List<Cidade> buscaPorCriterio(String criterio) {
+		return cidadeRepository.busca(criterio);
+	}
+	
 	
 	
 }

@@ -24,118 +24,33 @@
 	<ui:composition template="../templates/template.xhtml">
 
 		<ui:define name="content">
-
+			
+			
 			<section class="filter-area">
 				<div class="row">
 					<div class="col-3">
 						<h1>Endereço</h1>
 					</div>
-					<div class="col-9">
-						<h:form id="buscaForm">
-							<div class="d-flex flex-row">
-								<h:selectOneMenu class="form-control mr-3"
-									value="#{enderecoBean.categoria}">
-									<f:selectItem itemValue="bairro" itemLabel="Bairro" />
-									<f:selectItem itemValue="cidade" itemLabel="Cidade" />
-									<f:selectItem itemValue="estado" itemLabel="estado" />
-								</h:selectOneMenu>
-								<h:inputText class="form-control search-box"
-									placeholder="Digite sua pesquisa"
-									value="#{enderecoBean.valorDaBusca}" />
-								<h:commandButton class="btn btn-primary ml-3" value="Pesquisar"
-									onclick="javascript: show('#{enderecoBean.categoria}')"
-									action="#{enderecoBean.busca}" update=":buscaForm" />
-							</div>
-						</h:form>
-					</div>
 				</div>
 				<hr />
 			</section>
 
-			<!-- 			MegaButtons -->
-			
-			
-			<div class="mt-5 mb-5" id="formEstado">
-				<ui:insert name="formEstado">
-					<ui:include src="_formEstado.xhtml" />
-				</ui:insert>
-			</div>
 			
 			
 			<section id="mg-btns-section">
 				<div class="row">
 					<div class="col-12">
-						<h:form id="btns">
-							<!-- Btn Cadastra estado -->
-								<p:commandButton actionListener="#{estadoBean.initAdiciona}" value="Novo estado" styleClass="mr-3" />
-								<p:commandButton actionListener="#{estadoBean.initAdiciona}" value="Nova Cidade" styleClass="mr-3" />
-								<p:commandButton actionListener="#{estadoBean.initAdiciona}" value="Novo Bairro" styleClass="mr-3" />
+						<h:form id="btn-endereco">
+								<h:commandLink action="/view/endereco/estado/index" value="Estado" styleClass="mr-3" />
+								<h:commandLink action="/view/endereco/cidade/index" value="Cidade" styleClass="mr-3" />
+								<h:commandLink action="/view/endereco/bairro/index" value="Bairro" styleClass="mr-3" />
 						</h:form>
 					</div>
 				</div>
 			</section>
 			
 
-			<!--           Search Results -->
-
-
-			<c:if test="#{enderecoBean.estados != null}">
-				<section class="pesquisa-area mt-5">
-				<h6>
-					Seus resultados de pesquisa para o <span class="text-primary">#{enderecoBean.categoria}</span>
-					com o nome <span class="text-primary">#{enderecoBean.valorDaBusca}</span>
-				</h6>
-				<div class="mt-4">
-					<h:form id="actionsForm">
-					<section class="search-area" id="search-area">
-					<c:forEach	var="estado" items="#{estadoBean.listaEstadosPorNomeOuUf(enderecoBean.valorDaBusca)}">
-						<div class="card mt-3">
-							<div class="card-body">
-								<div class="row">
-									<div class="col-4">
-										<h4>#{estado.nome}</h4>
-									</div>
-									<div class="col-4">
-										<h6></h6>
-										<p>
-											<strong>UF: </strong>#{estado.uf}
-										</p>
-									</div>
-									<div class="col-4 text-right">
-										<div class="actions-area d-flex flex-row justify-content-end">
-												<h:commandButton
-													id="btn-edita"
-													actionListener="#{estadoBean.initAtualizar(estado)}"
-													class="btn btn-warning btn-sm mr-2"
-													update=":formCadastraEstado"
-													process="@this"
-													value="Editar"
-													styleClass="btn btn-warning btn-sm"
-													 />
-												<h:commandButton
-													actionListener="#{estadoBean.remover(estado)}"
-													class="btn btn-danger btn-sm ml-2" 
-													value="Remover"
-													process="@this"
-													update="@form" />
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</c:forEach>
-					</section>
-					</h:form>
-				</div>
-				</section>
-
-			</c:if>
-
-
-
 			
-
-
 			<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 				integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
 				crossorigin="anonymous"></script>

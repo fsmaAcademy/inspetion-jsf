@@ -1,62 +1,140 @@
 package br.com.fsma.projeto_web.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 
 import br.com.fsma.projeto_web.business.CidadeServiceImpl;
+import br.com.fsma.projeto_web.business.EstadoServiceImpl;
 import br.com.fsma.projeto_web.entities.Cidade;
+import br.com.fsma.projeto_web.entities.Estado;
 import br.com.fsma.projeto_web.tx.Transacional;
 
 @Named
-@SessionScoped
+@ViewScoped
 public class CidadeBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private EntityManager em;
-
-	@Inject
 	private CidadeServiceImpl cidadeService;
 
-	private Cidade cidade;
-	private List<Cidade> cidades;
+	@Inject
+	private EstadoServiceImpl estadoService;
 	
+	@Inject
+	private EntityManager em;
+	
+	private Cidade cidade;
+	private Estado estado;
+	
+	private List<Cidade> cidades = new ArrayList<>();
+	private List<Estado> estados = new ArrayList<>();
+	
+	private boolean editForm = false;
+	private boolean updateMode = false;
+	
+	private String criterio;
+	
+
 	@PostConstruct
 	public void init() {
-		if (cidade == null)
+		if (cidade == null) {
 			cidade = new Cidade();
+		}
+		
+		if (estado == null) {
+			estado = new Estado();
+		}
+		
+		this.estados = this.estadoService.buscar();
+		
+		
+		System.out.println("----------------->>>> EstadoBean.Init()");
 	}
-	
-	public String initAtualiza(Long id) {
-		this.cidade = cidadeService.buscaPorId(id);
-		return "/view/cidade/atualizaCidade.xhtml?faces-redirect=true";
-	}
-	
+
 	@Transacional
-	public void salvar() {
+	public void adiciona() {
+		cidade.setEstado(estado);
 		cidadeService.adiciona(cidade);
-	}
-	
-	@Transacional
-	public void remove(Cidade cidade) {
-		cidadeService.remove(cidade);
-		cidade = null;
+		cidade = new Cidade();
+		this.editForm = false;
 	}
 	
 	@Transacional
 	public String atualiza() {
 		cidadeService.atualiza(cidade);
-		cidade = null;
-		return "/view/cidade/index.xhtml?faces-redirect=true";
+		this.editForm = false;
+		return "/view/endereco/estado/index.xhtml?faces-redirect=true";
 	}
 	
+	@Transacional
+	public void remover(Cidade cidade) {
+		cidadeService.remove(cidade);
+		cidades.remove(cidade);
+	}
+	
+	public boolean isShowForm() {
+		return editForm;
+	}
+	
+	public boolean isUpdateMode() {
+		return this.updateMode;
+	}
+	
+	public void initAdiciona() {
+		this.updateMode = false;
+		this.editForm = true;
+		estado = new Estado();
+	}
+	
+	public void toggleEditMode() {
+		editForm = !editForm;
+	}
+
+	public void initAtualizar(Estado estado) {
+		this.updateMode = true;
+		this.editForm = true;
+		this.cidade = cidade;
+	}
+
+	public void buscarPorId(Long id) {
+		cidade = cidadeService.buscaPorId(id);
+	}
+	
+	public void buscaPorCriterio() {		
+		this.cidades = this.cidadeService.buscaPorCriterio(criterio);
+	}
+
+	public Estado getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Estado estado) {
+		this.estado = estado;
+	}
+
+	public List<Estado> getEstados() {
+		return estadoService.buscar();
+	}
+
+	public String getCriterio() {
+		return criterio;
+	}
+
+	public void setCriterio(String criterio) {
+		this.criterio = criterio;
+	}
+	
+	public int size() {
+		return this.estados.size();
+	}
 
 	public Cidade getCidade() {
 		return cidade;
@@ -69,5 +147,8 @@ public class CidadeBean implements Serializable {
 	public List<Cidade> getCidades() {
 		return cidades;
 	}
-
+	
+	
+	
+	
 }

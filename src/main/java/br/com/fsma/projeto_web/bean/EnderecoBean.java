@@ -15,6 +15,7 @@ import br.com.fsma.projeto_web.business.EstadoServiceImpl;
 import br.com.fsma.projeto_web.business.interfaces.IEstadoService;
 import br.com.fsma.projeto_web.entities.Cidade;
 import br.com.fsma.projeto_web.entities.Estado;
+import br.com.fsma.projeto_web.enums.TipoEndereco;
 import br.com.fsma.projeto_web.tx.Transacional;
 
 @Named

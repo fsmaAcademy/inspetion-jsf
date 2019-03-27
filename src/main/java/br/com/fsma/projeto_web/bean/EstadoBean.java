@@ -32,6 +32,8 @@ public class EstadoBean implements Serializable {
 	private boolean editForm = false;
 	private boolean updateMode = false;
 	
+	private String criterio;
+	
 
 	@PostConstruct
 	public void init() {
@@ -52,7 +54,7 @@ public class EstadoBean implements Serializable {
 	public String atualiza() {
 		estadoService.atualizar(estado);
 		this.editForm = false;
-		return "/view/endereco/index.xhtml?faces-redirect=true";
+		return "/view/endereco/estado/index.xhtml?faces-redirect=true";
 	}
 	
 	@Transacional
@@ -89,8 +91,12 @@ public class EstadoBean implements Serializable {
 		estado = estadoService.buscarPorId(id);
 	}	
 	
-	public List<Estado> listaEstadosPorNomeOuUf(String criterio) {
-		return estadoService.buscarPorNomeOuUf(criterio);
+	public List<Estado> getEstadosPorNomeOuUf() {
+		return estadoService.buscarPorNomeOuUf(this.criterio);
+	}
+	
+	public void buscaPorCriterio() {		
+		this.estados = this.getEstadosPorNomeOuUf();
 	}
 
 	public void buscarPorUf(String uf) {
@@ -107,6 +113,18 @@ public class EstadoBean implements Serializable {
 
 	public List<Estado> getEstados() {
 		return estadoService.buscar();
+	}
+
+	public String getCriterio() {
+		return criterio;
+	}
+
+	public void setCriterio(String criterio) {
+		this.criterio = criterio;
+	}
+	
+	public int size() {
+		return this.estados.size();
 	}
 	
 	
