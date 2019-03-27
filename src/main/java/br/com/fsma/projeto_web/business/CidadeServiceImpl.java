@@ -21,14 +21,11 @@ public class CidadeServiceImpl implements ICidadeService, Serializable {
 
 	@Inject
 	private EstadoRepositoryImpl estadoRepository;
-	
-	@Inject CidadeRepositoryImpl cidadeRepository;
+	@Inject 
+	private CidadeRepositoryImpl cidadeRepository;
 	
 	@Override
 	public void adiciona(Cidade cidade) {
-		Estado estado = estadoRepository.buscarPorId(cidade.getEstado().getId());
-		if (estado == null) return;
-		cidade.setEstado(estado);
 		cidadeRepository.adiciona(cidade);
 	}
 
@@ -62,8 +59,14 @@ public class CidadeServiceImpl implements ICidadeService, Serializable {
 		return cidadeRepository.buscaPorNome(nome);
 	}
 	
+	@Override
 	public List<Cidade> buscaPorCriterio(String criterio) {
 		return cidadeRepository.busca(criterio);
+	}
+	
+	@Override
+	public List<Cidade> buscaCidadePorEstadoPorCriterio(String criterio, Estado estado) {
+		return cidadeRepository.buscaCidadeEmEstadoPorCriterio(criterio, estado);
 	}
 	
 	

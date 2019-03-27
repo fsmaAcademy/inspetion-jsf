@@ -42,7 +42,7 @@
 	
 	<!-- Página principal da aplicação -->
 	<welcome-file-list>
-		<welcome-file>view/login/login.xhtml</welcome-file>
+		<welcome-file>view/home/home.xhtml</welcome-file>
 	</welcome-file-list>
 	
 	

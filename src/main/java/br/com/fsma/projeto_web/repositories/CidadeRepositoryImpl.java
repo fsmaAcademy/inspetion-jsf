@@ -75,6 +75,21 @@ public class CidadeRepositoryImpl implements Serializable, ICidadeRepository {
 	}
 
 	@Override
+	public List<Cidade> buscaCidadeEmEstadoPorCriterio(String criterio, Estado estado) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(" SELECT c FROM Cidade c ");
+		sb.append(" WHERE ");
+		sb.append("   c.estado.id = :pEstado");
+		sb.append("   and c.nome LIKE :pCriterio");
+		
+		TypedQuery<Cidade> query = em.createQuery(sb.toString(), Cidade.class);
+		query.setParameter("pCriterio", criterio + "%");
+		query.setParameter("pEstado", estado.getId());
+		
+		return query.getResultList();
+	}
+
+	@Override
 	public Cidade buscaPorNome(String nome) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT c FROM Cidade c ");

@@ -50,17 +50,18 @@ public class LoginBean implements Serializable {
 	
 	@Transacional
 	public String getLoga() {
-		Usuario usuarioAutenticado  = usuarioDao.buscaUsuarioPelaAutenticacao(this.usuario);
-		if (usuarioAutenticado != null) {
-			usuarioAutenticado.setDataDoUltimoAcesso(LocalDateTime.now());
-			usuarioDao.atualiza(usuarioAutenticado);
-			session.setAttribute(USUARIO_LOGADO, usuarioAutenticado);
-			usuario = usuarioAutenticado;
-			return "/view/home/home.xhtml?faces-redirect=true";
-		}
-		String mensagem = "Usuário e/ou senha não inválido!";
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", mensagem));
-		return null;
+//		Usuario usuarioAutenticado  = usuarioDao.buscaUsuarioPelaAutenticacao(this.usuario);
+//		if (usuarioAutenticado != null) {
+//			usuarioAutenticado.setDataDoUltimoAcesso(LocalDateTime.now());
+//			usuarioDao.atualiza(usuarioAutenticado);
+//			session.setAttribute(USUARIO_LOGADO, usuarioAutenticado);
+//			usuario = usuarioAutenticado;
+//			return "/view/home/home.xhtml?faces-redirect=true";
+//		}
+//		String mensagem = "Usuário e/ou senha não inválido!";
+//		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", mensagem));
+		return "/view/home/home.xhtml?faces-redirect=true";
+//		return null;
 	}
 
 	public String desloga() {

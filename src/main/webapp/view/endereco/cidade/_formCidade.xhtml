@@ -34,10 +34,12 @@
 		<h:form id="formCadastraCidade">
 			<p:panel rendered="#{cidadeBean.showForm}">
 				<div class="form-group">
-					<p:selectOneMenu id="estados" value="#{cidadeBean.estado}" class="w-100">
-						<f:selectItem itemLabel="Selecione" itemValue="" />
-						<f:selectItems value="#{cidadeBean.estados}" />
-					</p:selectOneMenu>
+					<h:selectOneMenu class="form-control mr-3" value="#{cidadeBean.estado.id}">
+						<f:selectItem itemValue="" itemLabel="Selecione" required="true" />
+						<c:forEach var="e" items="#{cidadeBean.estados}">
+							<f:selectItem itemValue="#{e.id}" itemLabel="#{e.nome}" />
+						</c:forEach>
+					</h:selectOneMenu>
 				</div>
 				<div class="form-group">
 					<h:outputLabel for="nome" value="Nome" />
@@ -53,12 +55,14 @@
 					</div>
 					<div class="col-6">
 						<c:if test="#{cidadeBean.updateMode == false}">
-							<h:commandButton class="btn btn-primary w-100"
-								value="Novo Estado" actionListener="#{estadoBean.adiciona}" />
+							<h:commandButton
+								class="btn btn-primary w-100"
+								value="Nova cidade"
+								actionListener="#{cidadeBean.adiciona}" />
 						</c:if>
 						<c:if test="#{cidadeBean.updateMode == true}">
 							<h:commandButton class="btn btn-primary w-100"
-								value="Atualizar Estado" actionListener="#{cidadeBean.atualiza}" />
+								value="Atualizar Cidade" actionListener="#{cidadeBean.atualiza()}" />
 						</c:if>
 					</div>
 				</div>

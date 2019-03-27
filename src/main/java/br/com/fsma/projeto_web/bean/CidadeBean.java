@@ -54,13 +54,10 @@ public class CidadeBean implements Serializable {
 		}
 		
 		this.estados = this.estadoService.buscar();
-		
-		
-		System.out.println("----------------->>>> EstadoBean.Init()");
 	}
-
 	@Transacional
 	public void adiciona() {
+		estado = estadoService.buscarPorId(estado.getId());
 		cidade.setEstado(estado);
 		cidadeService.adiciona(cidade);
 		cidade = new Cidade();
@@ -91,6 +88,7 @@ public class CidadeBean implements Serializable {
 	public void initAdiciona() {
 		this.updateMode = false;
 		this.editForm = true;
+		cidade = new Cidade();
 		estado = new Estado();
 	}
 	
@@ -98,7 +96,7 @@ public class CidadeBean implements Serializable {
 		editForm = !editForm;
 	}
 
-	public void initAtualizar(Estado estado) {
+	public void initAtualizar(Cidade cidade) {
 		this.updateMode = true;
 		this.editForm = true;
 		this.cidade = cidade;
@@ -108,8 +106,9 @@ public class CidadeBean implements Serializable {
 		cidade = cidadeService.buscaPorId(id);
 	}
 	
-	public void buscaPorCriterio() {		
-		this.cidades = this.cidadeService.buscaPorCriterio(criterio);
+	public void buscaPorCidadeEmEstadoPorCriterio() {
+		this.estado = this.estadoService.buscarPorId(estado.getId());
+		this.cidades = this.cidadeService.buscaCidadePorEstadoPorCriterio(criterio, estado);
 	}
 
 	public Estado getEstado() {
@@ -132,8 +131,16 @@ public class CidadeBean implements Serializable {
 		this.criterio = criterio;
 	}
 	
-	public int size() {
-		return this.estados.size();
+	public int getQuantidadeDeCidades() {
+		return this.cidades.size();
+	}
+	
+	public boolean hasBusca() {
+		return  criterio != null;
+	}
+	
+	public boolean notResult() {
+		return getQuantidadeDeCidades() == 0 && criterio != null;
 	}
 
 	public Cidade getCidade() {
@@ -147,8 +154,4 @@ public class CidadeBean implements Serializable {
 	public List<Cidade> getCidades() {
 		return cidades;
 	}
-	
-	
-	
-	
 }

@@ -36,10 +36,10 @@
 						<div class="row">
 							<div class="col-12">
 								<h:form id="btns">
-										<h:commandButton
-											class="btn btn-warning ml-3"
-											actionListener="#{cidadeBean.initAdiciona}"
-											value="Nova cidade" />
+									<h:commandButton
+										class="btn btn-warning ml-3"
+										actionListener="#{cidadeBean.initAdiciona}"
+										value="Nova cidade" />
 								</h:form>
 							</div>
 						</div>
@@ -48,18 +48,17 @@
 					<div class="col-7">
 						<h:form id="buscaForm">
 							<div class="d-flex flex-row">
-								<h:selectOneMenu class="form-control mr-3"
-									value="#{enderecoBean.categoria}">
-									<f:selectItem itemValue="bairro" itemLabel="Bairro" />
-									<f:selectItem itemValue="cidade" itemLabel="Cidade" />
-									<f:selectItem itemValue="estado" itemLabel="estado" />
+								<h:selectOneMenu class="form-control mr-3" value="#{cidadeBean.estado.id}" rendered="true" >
+									<f:selectItem itemValue="" itemLabel="Selecione" />
+									<f:selectItems value="#{cidadeBean.estados}" var="e" itemLabel="#{e.nome}" itemValue="#{e.id}" />
 								</h:selectOneMenu>
-								<h:inputText class="form-control search-box"
+								<p:inputText class="form-control search-box"
 									placeholder="Digite sua pesquisa"
-									value="#{enderecoBean.valorDaBusca}" />
+									value="#{cidadeBean.criterio}" />
 								<h:commandButton class="btn btn-primary ml-3" value="Pesquisar"
-									onclick="javascript: show('#{enderecoBean.categoria}')"
-									action="#{enderecoBean.busca}" update=":buscaForm" />
+									actionListener="#{cidadeBean.buscaPorCidadeEmEstadoPorCriterio()}" 
+									process="@form"
+									update="@form :actionsForm" />
 							</div>
 						</h:form>
 					</div>
@@ -81,35 +80,39 @@
 			
 
 			<!--           Search Results -->
+			
+			<c:if test="#{cidadeBean.notResult()}">
+				<p class="alert alert-warning">Não há resultados para sua pesquisa</p>
+			</c:if>
 
+			<h:form id="actionsForm">
 
-			<c:if test="#{enderecoBean.estados != null}">
+			<c:if test="#{cidadeBean.hasBusca()}">
 				<section class="pesquisa-area mt-5">
-				<h6>
-					Seus resultados de pesquisa para o <span class="text-primary">#{enderecoBean.categoria}</span>
-					com o nome <span class="text-primary">#{enderecoBean.valorDaBusca}</span>
-				</h6>
+				<p class="alert alert-success">
+					Seus resultados de pesquisa para o estado <span class="text-success">#{cidadeBean.estado}</span>
+					com a cidade <span class="text-success">#{cidadeBean.criterio}</span>
+				</p>
 				<div class="mt-4">
-					<h:form id="actionsForm">
 					<section class="search-area" id="search-area">
-					<c:forEach	var="estado" items="#{estadoBean.listaEstadosPorNomeOuUf(enderecoBean.valorDaBusca)}">
+					<c:forEach	var="cidade" items="#{cidadeBean.cidades}">
 						<div class="card mt-3">
 							<div class="card-body">
 								<div class="row">
 									<div class="col-4">
-										<h4>#{estado.nome}</h4>
+										<h4>#{cidade.nome}</h4>
 									</div>
 									<div class="col-4">
 										<h6></h6>
 										<p>
-											<strong>UF: </strong>#{estado.uf}
+											<strong>UF: </strong>#{cidade.estado.nome}
 										</p>
 									</div>
 									<div class="col-4 text-right">
 										<div class="actions-area d-flex flex-row justify-content-end">
 												<h:commandButton
 													id="btn-edita"
-													actionListener="#{estadoBean.initAtualizar(estado)}"
+													actionListener="#{cidadeBean.initAtualizar(cidade)}"
 													class="btn btn-warning btn-sm mr-2"
 													update=":formCadastraEstado"
 													process="@this"
@@ -117,7 +120,7 @@
 													styleClass="btn btn-warning btn-sm"
 													 />
 												<h:commandButton
-													actionListener="#{estadoBean.remover(estado)}"
+													actionListener="#{cidadeBean.remover(cidade)}"
 													class="btn btn-danger btn-sm ml-2" 
 													value="Remover"
 													process="@this"
@@ -129,11 +132,11 @@
 						</div>
 					</c:forEach>
 					</section>
-					</h:form>
 				</div>
 				</section>
 
 			</c:if>
+			</h:form>
 
 
 			

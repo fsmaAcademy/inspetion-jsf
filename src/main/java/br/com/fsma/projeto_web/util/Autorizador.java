@@ -16,28 +16,28 @@ public class Autorizador implements PhaseListener {
 
 	@Override
 	public void afterPhase(PhaseEvent evento) {
-		System.out.println("afterPhase(PhaseEvent evento)");
-		FacesContext context = evento.getFacesContext();
-		String nomePagina = context.getViewRoot().getViewId();
-		System.out.println("Nome da página: " + nomePagina);
-		if (nomePagina.endsWith("/login/login.xhtml")
-				|| nomePagina.endsWith("/login/create-user.xhtml")
-				|| nomePagina.endsWith("/login/recuperarSenha.xhtml")
-				|| nomePagina.endsWith("/login/novoLogin.xhtml")) {
-			return;
-		}
-
-		Usuario usuarioLogado = (Usuario) context.getExternalContext().getSessionMap().get("usuarioLogado");
-
-		if (usuarioLogado != null) {
-			System.out.println("Usuário está logado");
-			return;
-		}
-
-		// Redirecionamento para login.xhtml
-		NavigationHandler handler = context.getApplication().getNavigationHandler();
-		handler.handleNavigation(context, null, "/view/login/login?faces-redirect=true");
-		context.renderResponse();
+//		System.out.println("afterPhase(PhaseEvent evento)");
+//		FacesContext context = evento.getFacesContext();
+//		String nomePagina = context.getViewRoot().getViewId();
+//		System.out.println("Nome da página: " + nomePagina);
+//		if (nomePagina.endsWith("/login/login.xhtml")
+//				|| nomePagina.endsWith("/login/create-user.xhtml")
+//				|| nomePagina.endsWith("/login/recuperarSenha.xhtml")
+//				|| nomePagina.endsWith("/login/novoLogin.xhtml")) {
+//			return;
+//		}
+//
+//		Usuario usuarioLogado = (Usuario) context.getExternalContext().getSessionMap().get("usuarioLogado");
+//
+//		if (usuarioLogado != null) {
+//			System.out.println("Usuário está logado");
+//			return;
+//		}
+//
+//		// Redirecionamento para login.xhtml
+//		NavigationHandler handler = context.getApplication().getNavigationHandler();
+//		handler.handleNavigation(context, null, "/view/login/login?faces-redirect=true");
+//		context.renderResponse();
 	}
 
 	@Override
