@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Projeto Web - Home</title>
+
+	<link rel="stylesheet"
+		href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+		integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+		crossorigin="anonymous" />
+
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+		crossorigin="anonymous" />
+
+<!-- 	<link type="text/css" rel="stylesheet" -->
+<!-- 		href="#{facesContext.externalContext.requestContextPath}/resources/css/main.css" /> -->
+</h:head>
+
+<h:body>
+
+	<ui:composition>
+		<!-- Cadastrar Bairro -->
+		<h:form id="formCadastraBairro">
+			<p:panel rendered="#{bairroBean.showForm}">
+				<div class="form-group">
+					<p:selectOneMenu id="selectEstado" filter="true" value="#{bairroBean.estado}" required="true" style="width=100%">
+						<f:selectItem itemValue="" itemLabel="Estado" noSelectionOption="true" />
+					    <f:selectItems value="#{bairroBean.estados}" var="e" itemLabel="#{e.nome}" itemValue="#{e}"/>
+					    <p:ajax
+						    event="change"
+						    process="selectEstado"
+						    update="selectCidade"
+						    listener="#{bairroBean.processaCidades}" />
+					</p:selectOneMenu>
+				</div>
+				<div class="form-group">
+					<p:selectOneMenu id="selectCidade" value="#{bairroBean.cidade}" style="width=100%">
+						<f:selectItem itemValue="" itemLabel="Cidade" noSelectionOption="true" />
+						<f:selectItems value="#{bairroBean.cidades}" var="c" itemLabel="#{c.nome}" itemValue="#{c}" />
+						
+						<p:ajax
+						    event="change"
+						    process="@this"
+						    update="@form"
+						    listener="#{bairroBean.processaCidadeSelect}" />
+						    
+						    
+					</p:selectOneMenu>
+				</div>
+				<div class="form-group">
+					<p:outputLabel for="nomeBairro" value="Nome do Bairro" />
+					<p:inputText type="text" class="form-control" id="nomeBairro"
+						placeholder="Digite o nome do Bairro"
+						value="#{bairroBean.nomeBairro}">
+						
+							<p:ajax
+							    event="keyup"
+							    process="@this"
+							    update="@form"
+							    listener="#{bairroBean.nomeBairro}" />
+							    
+						</p:inputText>
+				</div>
+				<div class="row">
+					<div class="col-6">
+						<p:commandButton actionListener="#{bairroBean.toggleEditMode()}"
+							class="btn btn-secondary w-100" data-dismiss="modal"
+							value="Cancelar" aria-label="Close" />
+					</div>
+					<div class="col-6">
+						<c:if test="#{bairroBean.updateMode == false}">
+							<p:commandButton
+								class="btn btn-primary w-100"
+								process="@this"
+								update="@form"
+								value="Novo Bairro"
+								actionListener="#{bairroBean.adiciona()}" />
+						</c:if>
+						<c:if test="#{bairroBean.updateMode == true}">
+							<p:commandButton
+								class="btn btn-primary w-100"
+								value="Atualizar Bairro"
+								process="@this"
+								update="@form"
+								action="#{bairroBean.atualiza}" />
+						</c:if>
+					</div>
+				</div>
+
+			</p:panel>
+		</h:form>
+	</ui:composition>
+</h:body>
+
+</html>
+
+
+
+
+
+
+
+

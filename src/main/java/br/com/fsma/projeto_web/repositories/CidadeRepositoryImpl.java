@@ -107,4 +107,21 @@ public class CidadeRepositoryImpl implements Serializable, ICidadeRepository {
 		}
 	}
 
+	public List<Cidade> buscaPorEstado(Estado estado) {
+		
+		System.out.println("Estadooooo " + estado);
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(" SELECT c FROM Cidade c ");
+		sb.append(" WHERE ");
+		sb.append("   c.estado.id = :pEstado");
+		
+		TypedQuery<Cidade> query = em.createQuery(sb.toString(), Cidade.class);
+		query.setParameter("pEstado", estado.getId());
+		
+		List<Cidade> cidades = query.getResultList();
+		
+		return cidades;
+	}
+
 }

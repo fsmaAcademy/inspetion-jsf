@@ -52,8 +52,6 @@ public class CidadeBean implements Serializable {
 		if (estado == null) {
 			estado = new Estado();
 		}
-		
-		this.estados = this.estadoService.buscar();
 	}
 	@Transacional
 	public void adiciona() {

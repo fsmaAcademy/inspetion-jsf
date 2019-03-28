@@ -81,19 +81,23 @@
 
 			<!--           Search Results -->
 			
-			<c:if test="#{cidadeBean.notResult()}">
-				<p class="alert alert-warning">Não há resultados para sua pesquisa</p>
-			</c:if>
 
 			<h:form id="actionsForm">
 
 			<c:if test="#{cidadeBean.hasBusca()}">
 				<section class="pesquisa-area mt-5">
-				<p class="alert alert-success">
-					#{cidadeBean.quantidadeDeCidades} resultados de pesquisa para o estado <span class="text-success">#{cidadeBean.estado.nome}</span>
-					com a cidade <span class="text-success">#{cidadeBean.criterio}</span>
-					
-				</p>
+			
+				<c:if test="#{cidadeBean.quantidadeDeCidades == 0}">
+					<p class="alert alert-warning">Não há resultados para sua pesquisa</p>
+				</c:if>
+				<c:if test="#{cidadeBean.quantidadeDeCidades > 0}">
+					<p class="alert alert-success">
+						#{cidadeBean.quantidadeDeCidades} resultados de pesquisa para o estado <span class="text-success">#{cidadeBean.estado.nome}</span>
+						com a cidade <span class="text-success">#{cidadeBean.criterio}</span>
+						
+					</p>
+				</c:if>
+
 				<div class="mt-4">
 					<section class="search-area" id="search-area">
 					<c:forEach	var="cidade" items="#{cidadeBean.cidades}">
