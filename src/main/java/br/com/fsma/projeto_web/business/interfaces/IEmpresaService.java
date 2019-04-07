@@ -13,6 +13,9 @@ public interface IEmpresaService {
 	public void atualiza(Empresa empresa);
 	public void remove(Empresa empresa);
 	public List<Empresa> busca(String criterio);
+	Empresa buscaPorId(Long id);
+	List<Empresa> buscaPorBairro(Bairro bairro);
+	Empresa buscaPorNome(String criterio);
 	
 
 }

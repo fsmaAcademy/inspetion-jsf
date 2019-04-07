@@ -3,7 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 <h:head>
 	<meta charset="UTF-8" />
 	<title>Projeto Web - Home</title>
@@ -22,23 +25,140 @@
 
 		<ui:define name="content">
 
-			<section class="filter-area">
-			<div class="row">
-				<div class="col-3">
-					<h1>Fiscalização</h1>
-				</div>
-				<div class="col-9">
-					<form action="">
-						<div class="d-flex flex-row justify-content-end">
-							<button class="btn btn-primary" id="btn-reg-fiscalizacao"
-								type="button">Registrar nova</button>
-						</div>
-					</form>
-				</div>
-			</div>
-			<hr />
-			</section>
+		<c:if test="#{fiscalizacaoBean.hasNotification()}">
+			  <div class="alert alert-success">
+			    #{fiscalizacaoBean.notificationClientService.message}
+			  </div>
+		</c:if>
 
+			
+			<section class="filter-area">
+				<div class="row">
+					<div class="col-6">
+						<h1>Fiscalização</h1>
+					</div>
+					<div class="col-6">
+					<section id="mg-btns-section">
+						<div class="row">
+							<div class="col-12">
+								<h:form id="btns" style="text-align: right;">
+									<h:commandButton
+										class="btn btn-success ml-3"
+										actionListener="#{fiscalizacaoBean.initAdiciona}"
+										value="Nova Fiscalização"
+										proccess=""
+										update="@form :formCadastraFiscalizacao"/>
+								</h:form>
+							</div>
+						</div>
+					</section>
+					</div>
+				</div>
+				<hr />
+				<div class="row">
+					<div class="col-12">
+						<h:form id="buscaForm">
+							<div class="d-flex flex-row">
+								<div class="form-group mr-2">
+									<h:outputLabel value="Data Inicio"></h:outputLabel>
+									<p:inputText class="form-control mr-2" value="#{fiscalizacaoBean.dataInicio}" placeholder="Data inicio" mask="99/99/9999">  
+									   <f:convertDateTime pattern="dd/MM/yyyy" />
+									</p:inputText>								
+								</div>
+								<div class="form-group mr-2">
+									<h:outputLabel value="Data Fim"></h:outputLabel>
+									<p:inputText class="form-control mr-2" value="#{fiscalizacaoBean.dataFim}"  placeholder="Data Fim" mask="99/99/9999">  
+									   <f:convertDateTime pattern="dd/MM/yyyy" />
+									</p:inputText>								
+								</div>
+								<div class="form-group mr-2">
+									<h:outputLabel value="Nome da empresa"></h:outputLabel>
+									<h:inputText class="form-control search-box"
+										placeholder="Digite sua pesquisa"
+										value="#{fiscalizacaoBean.criterio}" />				
+								</div>
+								<div class="form-group text-right" style="text-align: right;">
+									<h:commandButton
+										class="btn btn-primary ml-3 w-100"
+										style="margin-top: 31px"
+										value="Pesquisar"
+										actionListener="#{fiscalizacaoBean.busca()}"
+										update=":buscaForm"
+										/>
+								</div>
+							</div>
+						</h:form>
+					</div>
+				</div>
+			</section>
+			
+			<hr />
+			
+			<div class="mt-5 mb-5" id="formEmpresa">
+				<ui:insert name="formEmpresa">
+					<ui:include src="_formFiscalizacao.xhtml" />
+				</ui:insert>
+			</div>
+			
+			
+			
+			<c:if test="#{fiscalizacaoBean.hasBusca()}">
+				<section class="pesquisa-area mt-5 mb-5">
+				<div class="mt-4">
+					<h:form id="actionsForm">
+					<section class="search-area" id="search-area">
+					<c:forEach var="fiscalizacao" items="#{fiscalizacaoBean.fiscalizacoes}">
+						<div class="card mt-3">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-4">
+										<h4>#{fiscalizacao.empresa.nome}</h4>
+										<h6>Nome Fiscalização: #{fiscalizacao.nome}</h6>
+										<h6>Data: #{fiscalizacao.data}</h6>
+									</div>
+									<div class="col-4">
+										<p>
+											<strong>CNPJ: </strong>#{fiscalizacao.empresa.cnpj}
+										</p>
+										<p>
+											<strong>UF: </strong>#{fiscalizacao.estado.uf}
+										</p>
+										<p>
+											<strong>Cidade: </strong>#{fiscalizacao.cidade.nome}
+										</p>
+										<p>
+											<strong>Bairro: </strong>#{fiscalizacao.bairro.nome}
+										</p>
+									</div>
+									<div class="col-4 text-right">
+										<div class="actions-area d-flex flex-row justify-content-end">
+												<h:commandButton
+													id="btn-edita"
+													actionListener="#{fiscalizacaoBean.initAtualiza(fiscalizacao)}"
+													class="btn btn-warning btn-sm mr-2"
+													update=":formCadastraEmpresa"
+													process="@this"
+													value="Editar"
+													styleClass="btn btn-warning btn-sm"
+													 />
+												<h:commandButton
+													actionListener="#{fiscalizacaoBean.remover(fiscalizacao)}"
+													class="btn btn-danger btn-sm ml-2" 
+													value="Remover"
+													process="@this"
+													update="@form" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+					</section>
+					</h:form>
+				</div>
+				</section>
+
+			</c:if>
 
 		</ui:define>
 

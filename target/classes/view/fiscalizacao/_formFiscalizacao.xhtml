@@ -31,111 +31,117 @@
 
 	<ui:composition>
 		<!-- Cadastrar Empresa -->
-		<h:form id="formCadastraEmpresa">
-			<p:panel rendered="#{empresaBean.editForm}" style="padding: 30px;">
-				<h2>Adicionar/Editar nova empresa</h2>
+		<h:form id="formCadastraFiscalizacao">
+			<p:panel rendered="#{fiscalizacaoBean.editForm}" style="padding: 30px;">
+				<h2>Adicionar/Editar nova Fiscalização</h2>
 				<hr class="mb-3" />
-				<c:if test="#{empresaBean.notificationClientService.status}">
+				<c:if test="#{fiscalizacaoBean.notificationClientService.status}">
 					
-					<p class="alert alert-#{empresaBean.alertClass} text-#{empresaBean.alertClass}">
-						#{empresaBean.notificationClientService.message}
+					<p class="alert alert-#{fiscalizacaoBean.alertClass} text-#{fiscalizacaoBean.alertClass}">
+						#{fiscalizacaoBean.notificationClientService.message}
 					</p>
 					
 				</c:if>
+				<span class="badge badge-primary mb-5">
+					<h:outputText value="Data do registro: #{fiscalizacaoBean.fiscalizacao.data}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</span>
+							
+				
 				<div class="form-group">
-					<p:selectOneMenu id="selectEstado" filter="true" value="#{empresaBean.estado}" required="true" style="width=100%">
+					<p:selectOneMenu id="selectEstado" filter="true" value="#{fiscalizacaoBean.estado}" required="true" style="width=100%">
 						<f:selectItem itemValue="" itemLabel="Estado" noSelectionOption="true" />
-					    <f:selectItems value="#{empresaBean.estados}" var="e" itemLabel="#{e.nome}" itemValue="#{e}"/>
+					    <f:selectItems value="#{fiscalizacaoBean.estados}" var="e" itemLabel="#{e.nome}" itemValue="#{e}"/>
 					    <p:ajax
 						    event="change"
 						    process="selectEstado"
 						    update="selectCidade"
-						    listener="#{empresaBean.processaCidades}" />
+						    listener="#{fiscalizacaoBean.processaCidades}" />
 					</p:selectOneMenu>
 				</div>
 				<div class="form-group">
-					<p:selectOneMenu id="selectCidade" value="#{empresaBean.cidade}" style="width=100%">
+					<p:selectOneMenu id="selectCidade" value="#{fiscalizacaoBean.cidade}" style="width=100%">
 						<f:selectItem itemValue="" itemLabel="Cidade" noSelectionOption="true" />
-						<f:selectItems value="#{empresaBean.cidades}" var="c" itemLabel="#{c.nome}" itemValue="#{c}" />
+						<f:selectItems value="#{fiscalizacaoBean.cidades}" var="c" itemLabel="#{c.nome}" itemValue="#{c}" />
 						
 						<p:ajax
 						    event="change"
 						    process="@this"
 						    update="selectBairro"
-						    listener="#{empresaBean.processaCidadeSelect}" />
+						    listener="#{fiscalizacaoBean.processaCidadeSelect}" />
 						    
 						    
 					</p:selectOneMenu>
 				</div>
 				<div class="form-group">
-					<p:selectOneMenu id="selectBairro" value="#{empresaBean.bairro}" style="width=100%">
+					<p:selectOneMenu id="selectBairro" value="#{fiscalizacaoBean.bairro}" style="width=100%">
 						<f:selectItem itemValue="" itemLabel="Bairro" noSelectionOption="true" />
-						<f:selectItems value="#{empresaBean.bairros}" var="c" itemLabel="#{c.nome}" itemValue="#{c}" />
-						
+						<f:selectItems value="#{fiscalizacaoBean.bairros}" var="c" itemLabel="#{c.nome}" itemValue="#{c}" />
 						<p:ajax
 						    event="change"
 						    process="@this"
 						    update="@form"
-						    listener="#{empresaBean.processaBairroSelect}" />
-						    
-						    
+						    listener="#{fiscalizacaoBean.processaBairroSelect}" />
 					</p:selectOneMenu>
 				</div>
+				
 				<div class="form-group">
-					<p:outputLabel for="cnpj" value="CNPJ" />
-					<p:inputText type="text" class="form-control" id="cnpj"
-						placeholder="Digite o CNPJ"
-						value="#{empresaBean.empresa.cnpj}">
+					<p:selectOneMenu id="selectEmpresa" value="#{fiscalizacaoBean.empresa}" style="width=100%">
+						<f:selectItem itemValue="" itemLabel="Empresa" noSelectionOption="true" />
+						<f:selectItems value="#{fiscalizacaoBean.empresas}" var="c" itemLabel="#{c.nome}" itemValue="#{c}" />
+						<p:ajax
+						    event="change"
+						    process="@this"
+						    update="@form"
+						    listener="#{fiscalizacaoBean.processaEmpresaSelect}" />
+					</p:selectOneMenu>
+				</div>
+				
+				<div class="form-group">
+					<p:outputLabel for="nomeFiscal" value="Nome" />
+					<p:inputText type="text" class="form-control" id="nomeFiscal"
+						placeholder="Digite o nome"
+						value="#{fiscalizacaoBean.fiscalizacao.nome}">
 							<p:ajax
 							    event="keyup"
 							    process="@this"
 							    update="@form"
-							    listener="#{empresaBean.empresa.cnpj}" />
+							    listener="#{fiscalizacaoBean.fiscalizacao.nome}" />
 							    
 						</p:inputText>
 				</div>
-				<div class="form-group">
-					<p:outputLabel for="nomeEmpresa" value="Nome da empresa" />
-					<p:inputText type="text" class="form-control" id="nomeEmpresa"
-						placeholder="Digite o Nome"
-						value="#{empresaBean.empresa.nome}">
-							<p:ajax
-							    event="keyup"
-							    process="@this"
-							    update="@form"
-							    listener="#{empresaBean.empresa.nome}" />
-							    
-						</p:inputText>
-				</div>
+				
 				<div class="form-group">
 					<p:outputLabel for="logradouro" value="Logradouro" />
 					<p:inputText type="text" class="form-control" id="logradouro"
 						placeholder="Digite o Logradouro"
-						value="#{empresaBean.empresa.logradouro}">
+						value="#{fiscalizacaoBean.fiscalizacao.logradouro}">
 							<p:ajax
 							    event="keyup"
 							    process="@this"
 							    update="@form"
-							    listener="#{empresaBean.empresa.logradouro}" />
-							    
+							    listener="#{fiscalizacaoBean.fiscalizacao.logradouro}" />
 						</p:inputText>
 				</div>
+				
 				<div class="form-group">
 					<p:outputLabel for="cep" value="CEP" />
-					<p:inputText type="text" class="form-control" id="cep"
+					<p:inputMask type="text" class="form-control" id="cep"
 						placeholder="Digite o CEP"
-						value="#{empresaBean.empresa.cep}">
+						mask="99.999-999"
+						value="#{fiscalizacaoBean.fiscalizacao.cep}">
 							<p:ajax
 							    event="keyup"
 							    process="@this"
 							    update="@form"
-							    listener="#{empresaBean.empresa.cep}" />
-							    
-						</p:inputText>
+							    listener="#{fiscalizacaoBean.fiscalizacao.cep}" />
+						</p:inputMask>
 				</div>
+				
 				<div class="row">
 					<div class="col-6">
-						<p:commandButton actionListener="#{empresaBean.toggleEditMode()}"
+						<p:commandButton actionListener="#{fiscalizacaoBean.toggleEditMode()}"
 							class="w-100"
 							value="Cancelar"
 							process="@this"
@@ -143,21 +149,21 @@
 							/>
 					</div>
 					<div class="col-6">
-						<c:if test="#{empresaBean.updateMode == false}">
+						<c:if test="#{fiscalizacaoBean.updateMode == false}">
 							<p:commandButton
 								class="w-100"
 								process="@this"
 								update="@all"
-								value="Nova empresa"
-								actionListener="#{empresaBean.adiciona()}" />
+								value="Nova Fiscalização"
+								actionListener="#{fiscalizacaoBean.adiciona()}" />
 						</c:if>
-						<c:if test="#{empresaBean.updateMode}">
+						<c:if test="#{fiscalizacaoBean.updateMode}">
 							<p:commandButton
 								class="w-100"
-								value="Atualizar empresa"
+								value="Atualizar Fiscalização"
 								process="@this"
 								update="@all"
-								action="#{empresaBean.atualiza}" />
+								action="#{fiscalizacaoBean.atualiza}" />
 						</c:if>
 					</div>
 				</div>

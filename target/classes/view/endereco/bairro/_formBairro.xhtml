@@ -32,7 +32,9 @@
 	<ui:composition>
 		<!-- Cadastrar Bairro -->
 		<h:form id="formCadastraBairro">
-			<p:panel rendered="#{bairroBean.showForm}">
+			<p:panel rendered="#{bairroBean.showForm}" style="padding: 30px;">
+				<h2>Adicionar/Editar novo Bairro</h2>
+				<hr class="mb-3" />
 				<div class="form-group">
 					<p:selectOneMenu id="selectEstado" filter="true" value="#{bairroBean.estado}" required="true" style="width=100%">
 						<f:selectItem itemValue="" itemLabel="Estado" noSelectionOption="true" />

@@ -23,12 +23,7 @@
 
 		<ui:define name="content">
 
-		<c:if test="#{empresaBean.hasNotification()}">
-			  <div class="alert alert-success">
-			    #{empresaBean.notificationClientService.message}
-			  </div>
-			
-		</c:if>
+		
 
 			
 			<section class="filter-area">
@@ -42,7 +37,7 @@
 							<div class="col-12">
 								<h:form id="btns">
 									<h:commandButton
-										class="btn btn-warning ml-3"
+										class="btn btn-success ml-3"
 										actionListener="#{empresaBean.initAdiciona}"
 										value="Nova Empresa"
 										proccess=""

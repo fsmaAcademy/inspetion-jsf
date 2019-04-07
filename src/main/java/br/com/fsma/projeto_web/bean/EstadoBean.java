@@ -24,8 +24,7 @@ public class EstadoBean implements Serializable {
 
 	@Inject
 	private EstadoServiceImpl estadoService;
-	@Inject
-	private EntityManager em;
+	
 	private Estado estado;
 	private List<Estado> estados = new ArrayList<>();
 	

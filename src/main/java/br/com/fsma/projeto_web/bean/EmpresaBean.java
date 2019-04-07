@@ -126,11 +126,33 @@ public class EmpresaBean implements Serializable {
 	
 	@Transacional
 	public String atualiza() {
+		
+		
+		notificationClientService = empresaValidator.atualiza(empresa);
+		if (notificationClientService.isStatus()) {
+			if (notificationClientService.getNotificationType() == NotificationType.Success) {
+				alertClass = "success";
+			} else if (notificationClientService.getNotificationType() == NotificationType.Warning) {
+				alertClass = "warning";				
+			} else {
+				alertClass = "danger";				
+			}
+			return null;
+		}
+		
+		
 		empresa.setBairro(bairro);
 		empresa.setCidade(cidade);
 		empresa.setEstado(estado);
 		empresaService.atualiza(empresa);
 		restartForm();
+		
+		notificationClientService = new NotificationClientService(
+				"Empresa Atualizada com sucesso",
+				false,
+				NotificationType.Success
+				);
+		
 		return "/view/empresa/index.xhtml?faces-redirect=true";
 	}
 	
@@ -138,6 +160,12 @@ public class EmpresaBean implements Serializable {
 	public void remover(Empresa empresa) {
 		empresaService.remove(empresa);
 		empresas.remove(empresa);
+		
+		notificationClientService = new NotificationClientService(
+				"Empresa Removida com sucesso",
+				false,
+				NotificationType.Success
+				);
 	}
 	
 	private void restartForm() {

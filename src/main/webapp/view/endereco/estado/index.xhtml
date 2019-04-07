@@ -36,10 +36,13 @@
 						<div class="row">
 							<div class="col-12">
 								<h:form id="btns">
+								
 										<h:commandButton
-											class="btn btn-warning ml-3"
+											class="btn btn-success ml-3"
 											actionListener="#{estadoBean.initAdiciona}"
-											value="Novo estado" />
+											value="Novo estado"
+											proccess=""
+											update="@form :formCadastraEstado"/>
 								</h:form>
 							</div>
 						</div>
@@ -80,7 +83,7 @@
 
 
 			<c:if test="#{estadoBean.size() > 0}">
-				<section class="pesquisa-area mt-5">
+				<section class="pesquisa-area mt-5 mb-5">
 				<h6>
 					Seus resultados de pesquisa para <span class="text-primary">#{estadoBean.criterio}</span>
 				</h6>

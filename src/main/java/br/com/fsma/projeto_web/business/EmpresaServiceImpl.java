@@ -60,4 +60,19 @@ public class EmpresaServiceImpl  implements Serializable, IEmpresaService {
 		return empresa;
 	}
 
+	@Override
+	public List<Empresa> buscaPorBairro(Bairro bairro) {
+		return empresaRepository.buscaPorBairro(bairro);
+	}
+
+	@Override
+	public Empresa buscaPorId(Long id) {
+		return empresaRepository.buscaPorId(id);
+	}
+	
+	@Override
+	public Empresa buscaPorNome(String criterio) {
+		return this.empresaRepository.buscaPorNome(criterio);
+	}
+
 }

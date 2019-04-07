@@ -16,4 +16,5 @@ public interface IEmpresaRepository {
 	public Empresa buscaPorNome(String nome);
 	public boolean existe(Empresa empresa);
 	Empresa buscaPorCnpj(String cnpj);
+	List<Empresa> buscaPorBairro(Bairro bairro);
 }

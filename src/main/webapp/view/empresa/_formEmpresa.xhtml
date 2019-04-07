@@ -32,7 +32,9 @@
 	<ui:composition>
 		<!-- Cadastrar Empresa -->
 		<h:form id="formCadastraEmpresa">
-			<p:panel rendered="#{empresaBean.editForm}">
+			<p:panel rendered="#{empresaBean.editForm}" style="padding: 30px;">
+				<h2>Adicionar/Editar nova empresa</h2>
+				<hr class="mb-3" />
 				<c:if test="#{empresaBean.notificationClientService.status}">
 					
 					<p class="alert alert-#{empresaBean.alertClass} text-#{empresaBean.alertClass}">

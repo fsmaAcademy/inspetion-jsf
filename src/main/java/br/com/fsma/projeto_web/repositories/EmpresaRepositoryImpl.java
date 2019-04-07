@@ -104,5 +104,18 @@ public class EmpresaRepositoryImpl implements Serializable, IEmpresaRepository {
 		}
 	}
 	
+	@Override
+	public List<Empresa> buscaPorBairro(Bairro bairro) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("SELECT e FROM Empresa e ");
+		sb.append("WHERE ");
+		sb.append("    e.bairro = :pBairro");
+		
+		TypedQuery<Empresa> query = em.createQuery(sb.toString(), Empresa.class);
+		query.setParameter("pBairro", bairro);
+		
+		return query.getResultList();
+	}
+	
 
 }

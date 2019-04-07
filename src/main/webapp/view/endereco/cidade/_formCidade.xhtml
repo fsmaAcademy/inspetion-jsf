@@ -32,7 +32,9 @@
 	<ui:composition>
 		<!-- Cadastrar Estado -->
 		<h:form id="formCadastraCidade">
-			<p:panel rendered="#{cidadeBean.showForm}">
+			<p:panel rendered="#{cidadeBean.showForm}" style="padding: 30px;">
+				<h2>Adicionar/Editar nova Cidade</h2>
+				<hr class="mb-3" />
 				<div class="form-group">
 					<h:selectOneMenu class="form-control mr-3" value="#{cidadeBean.estado.id}">
 						<f:selectItem itemValue="" itemLabel="Selecione" required="true" />
