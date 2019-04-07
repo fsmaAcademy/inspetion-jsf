@@ -7,6 +7,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import br.com.fsma.projeto_web.bean.EmpresaBean;
 import br.com.fsma.projeto_web.business.interfaces.IBairroService;
 import br.com.fsma.projeto_web.entities.Bairro;
 import br.com.fsma.projeto_web.entities.Cidade;
@@ -40,15 +41,11 @@ public class BairroServiceImpl implements Serializable, IBairroService {
 					.getId()
 				);
 		
-		System.out.println("REPOSITORY BAIRRO: Estado ------------> " + estado);
-
 		Cidade cidade = this.cidadeRepository.buscaPorId(
 				bairro
 					.getCidade()
 					.getId()
 				);
-
-		System.out.println("REPOSITORY BAIRRO: CIDADE ------------> " + cidade);
 
 		bairro.getCidade().setEstado(estado);
 		bairro.setCidade(cidade);
@@ -59,12 +56,9 @@ public class BairroServiceImpl implements Serializable, IBairroService {
 	@Override
 	public void atualiza(Bairro bairro) {
 		Estado estado = this.estadoRepository.buscarPorId(bairro.getCidade().getEstado().getId());
-
 		Cidade cidade = this.cidadeRepository.buscaPorId(bairro.getCidade().getId());
-
 		bairro.getCidade().setEstado(estado);
 		bairro.setCidade(cidade);
-
 		this.bairroRepository.atualiza(bairro);
 	}
 
@@ -86,6 +80,11 @@ public class BairroServiceImpl implements Serializable, IBairroService {
 	@Override
 	public List<Bairro> buscaBairroPorCriterioEmCidadeEstado(String criterio, Cidade cidade) {
 		return this.bairroRepository.buscaBairroPorCriterioEmCidadeEstado(criterio, cidade);
+	}
+	
+	@Override
+	public List<Bairro> buscaPorCidade(Cidade cidade) {
+		return bairroRepository.buscaPorCidade(cidade);
 	}
 
 }

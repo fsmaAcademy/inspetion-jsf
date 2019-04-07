@@ -15,6 +15,10 @@ public interface ICidadeRepository {
 	public Cidade buscaPorId(Long id);
 	public Cidade buscaPorNome(String nome);
 	public List<Cidade> buscaCidadeEmEstadoPorCriterio(String criterio, Estado Estado);
+	boolean existe(Cidade cidade);
+	List<Cidade> buscaPorEstado(Estado estado);
+	Cidade buscaEmEstadoPorNome(String nome, Estado estado);
+	boolean existePorId(Long id);
 	
 	
 }

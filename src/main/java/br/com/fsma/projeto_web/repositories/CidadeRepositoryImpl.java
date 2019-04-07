@@ -107,10 +107,8 @@ public class CidadeRepositoryImpl implements Serializable, ICidadeRepository {
 		}
 	}
 
+	@Override
 	public List<Cidade> buscaPorEstado(Estado estado) {
-		
-		System.out.println("Estadooooo " + estado);
-		
 		StringBuilder sb = new StringBuilder();
 		sb.append(" SELECT c FROM Cidade c ");
 		sb.append(" WHERE ");
@@ -122,6 +120,37 @@ public class CidadeRepositoryImpl implements Serializable, ICidadeRepository {
 		List<Cidade> cidades = query.getResultList();
 		
 		return cidades;
+	}
+	
+
+	@Override
+	public boolean existe(Cidade cidade) {
+		return buscaEmEstadoPorNome(cidade.getNome(), cidade.getEstado()) != null;
+	}
+
+	@Override
+	public Cidade buscaEmEstadoPorNome(String nome, Estado estado) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(" SELECT c FROM Cidade c ");
+		sb.append(" WHERE ");
+		sb.append("   c.estado = :pEstado");
+		sb.append("   and c.nome = :pNome");
+		
+		TypedQuery<Cidade> query = em.createQuery(sb.toString(), Cidade.class);
+		query.setParameter("pEstado", estado);
+		query.setParameter("pNome", nome);
+		
+		try {
+			return query.getSingleResult();
+		} catch (NoResultException ex) {
+			return null;
+		}
+	}
+	
+	
+	@Override
+	public boolean existePorId(Long id) {
+		return buscaPorId(id) != null;
 	}
 
 }

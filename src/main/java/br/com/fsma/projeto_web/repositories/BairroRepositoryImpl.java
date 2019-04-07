@@ -95,4 +95,53 @@ public class BairroRepositoryImpl implements Serializable, IBairroRepository {
 	}
 
 	
+	@Override
+	public boolean existe(Bairro bairro) {
+		return buscaPorCidadeEstado(
+				bairro.getNome(),
+				bairro.getCidade(),
+				bairro.getCidade().getEstado()
+				) != null;
+	}
+
+	@Override
+	public Bairro buscaPorCidadeEstado(String nome, Cidade cidade, Estado estado) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(" SELECT b FROM Bairro b ");
+		sb.append(" WHERE ");
+		sb.append("   b.cidade = :pCidade");
+		sb.append("   b.estado = :pEstado");
+		sb.append("   and b.nome = :pNome");
+		
+		TypedQuery<Bairro> query = em.createQuery(sb.toString(), Bairro.class);
+		query.setParameter("pCidade", cidade);
+		query.setParameter("pEstado", estado);
+		query.setParameter("pNome", nome);
+		
+		try {
+			return query.getSingleResult();
+		} catch (NoResultException ex) {
+			return null;
+		}
+	}
+	
+	@Override
+	public List<Bairro> buscaPorCidade(Cidade cidade) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(" SELECT b FROM Bairro b ");
+		sb.append(" WHERE ");
+		sb.append("   b.cidade = :pCidade");
+		
+		TypedQuery<Bairro> query = em.createQuery(sb.toString(), Bairro.class);
+		query.setParameter("pCidade", cidade);
+		
+		return query.getResultList();
+	}
+
+	@Override
+	public boolean existePorId(Long id) {
+		return buscaPorId(id) != null;
+	}
+
+	
 }

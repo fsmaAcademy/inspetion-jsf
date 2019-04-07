@@ -13,4 +13,6 @@ public interface IEstadoRepository {
 	
 	public Estado buscaPorUf(String uf);
 	public List<Estado> buscarPorNomeOuUf(String criterio);
+	boolean existe(Estado estado);
+	boolean existePorId(Long id);
 }

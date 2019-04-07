@@ -73,23 +73,21 @@ public class BairroBean implements Serializable {
 		System.out.println("ADICIONA-----------------------------------");
 		System.out.println("Estado: " + estado.toString());
 		System.out.println("Cidade: " + cidade.toString());
-		
-		
+
 		bairro.setCidade(cidade);
 		bairro.getCidade().setEstado(estado);
-		
-		
+
 		System.out.println("Nome Bairro -----------------------------------" + this.nomeBairro);
 		System.out.println("BAIROOOOOO-----------------------------------");
 		System.out.println(bairro);
-		
+
 		bairro.setNome(nomeBairro);
-		
+
 		bairroService.adiciona(bairro);
+		this.editForm = false;
 		bairro = new Bairro();
 		cidade = new Cidade();
 		estado = new Estado();
-		this.editForm = false;
 	}
 
 	@Transacional
@@ -111,10 +109,10 @@ public class BairroBean implements Serializable {
 		bairroService.remove(bairro);
 		bairros.remove(bairro);
 	}
-	
+
 	public void selectOneMenuListener(ValueChangeEvent event) {
-	    Object newValue = event.getNewValue();
-	    System.out.println(newValue);
+		Object newValue = event.getNewValue();
+		System.out.println(newValue);
 	}
 
 	public boolean isShowForm() {
@@ -124,13 +122,13 @@ public class BairroBean implements Serializable {
 	public boolean isUpdateMode() {
 		return this.updateMode;
 	}
-	
+
 	public void processaCidades() {
-	    this.cidades = this.cidadeService.buscaPorEstado(estado);
+		this.cidades = this.cidadeService.buscaPorEstado(estado);
 	}
-	
+
 	public void processaCidadeSelect() {
-	    this.cidade = cidadeService.buscaPorId(cidade.getId());
+		this.cidade = cidadeService.buscaPorId(cidade.getId());
 	}
 
 	public void initAdiciona() {
@@ -146,7 +144,7 @@ public class BairroBean implements Serializable {
 	}
 
 	public void initAtualizar(Bairro bairro) {
-		System.out.println("ATUALIZAR BAIRRO ++++ " + bairro);
+
 		this.updateMode = true;
 		this.editForm = true;
 		nomeBairro = bairro.getNome();
@@ -159,13 +157,15 @@ public class BairroBean implements Serializable {
 
 	public void buscaBairroPorCriterioEmCidadeEstado() {
 		cidade = cidadeService.buscaPorId(cidade.getId());
-		if (nomeBairro == null) criterio = "";
-		else criterio = nomeBairro;
+		if (nomeBairro == null)
+			criterio = "";
+		else
+			criterio = nomeBairro;
 		System.out.println(this.cidade + "-----------------");
 		System.out.println(this.estado + "-----------------");
 		System.out.println("Criterio -------" + this.criterio + "-----------------");
 		this.bairros = this.bairroService.buscaBairroPorCriterioEmCidadeEstado(criterio, cidade);
-		
+
 		System.out.println(this.bairros);
 	}
 
@@ -232,6 +232,5 @@ public class BairroBean implements Serializable {
 	public void setNomeBairro(String nomeBairro) {
 		this.nomeBairro = nomeBairro;
 	}
-	
-	
+
 }

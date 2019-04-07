@@ -13,4 +13,5 @@ public interface IBairroService {
 	public Bairro buscaPorId(Long id);
 	public Bairro buscaPorNome(String nome);
 	public List<Bairro> buscaBairroPorCriterioEmCidadeEstado(String criterio, Cidade cidade);
+	List<Bairro> buscaPorCidade(Cidade cidade);
 }

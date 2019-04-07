@@ -15,4 +15,8 @@ public interface IBairroRepository {
 	public Bairro buscaPorId(Long id);
 	public Bairro buscaPorNome(String nome);
 	public List<Bairro> buscaBairroPorCriterioEmCidadeEstado(String criterio, Cidade cidade);
+	boolean existe(Bairro bairro);
+	Bairro buscaPorCidadeEstado(String nome, Cidade cidade, Estado estado);
+	List<Bairro> buscaPorCidade(Cidade cidade);
+	boolean existePorId(Long id);
 }

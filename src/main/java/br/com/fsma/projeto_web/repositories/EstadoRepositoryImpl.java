@@ -99,4 +99,14 @@ public class EstadoRepositoryImpl implements Serializable, IEstadoRepository {
 		}
 	}
 
+	@Override
+	public boolean existe(Estado estado) {
+		return buscaPorUf(estado.getUf()) != null;
+	}
+
+	@Override
+	public boolean existePorId(Long id) {
+		return buscarPorId(id) != null;
+	}
+
 }
