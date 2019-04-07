@@ -24,34 +24,32 @@
 	<ui:composition template="../../templates/template.xhtml">
 
 		<ui:define name="content">
-			
-			
 			<section class="filter-area">
 				<div class="row">
 					<div class="col-2">
 						<h1>Estado</h1>
 					</div>
 					<div class="col-3">
-					<section id="mg-btns-section">
-						<div class="row">
-							<div class="col-12">
-								<h:form id="btns">
-								
+						<section id="mg-btns-section">
+							<div class="row">
+								<div class="col-12">
+									<h:form id="btns">
 										<h:commandButton
 											class="btn btn-success ml-3"
 											actionListener="#{estadoBean.initAdiciona}"
 											value="Novo estado"
 											proccess=""
-											update="@form :formCadastraEstado"/>
-								</h:form>
+											update="@form :formCadastraEstado" />
+									</h:form>
+								</div>
 							</div>
-						</div>
-					</section>
+						</section>
 					</div>
 					<div class="col-7">
 						<h:form id="buscaForm">
 							<div class="d-flex flex-row">
-								<h:inputText class="form-control search-box"
+								<h:inputText
+									class="form-control search-box"
 									placeholder="Digite sua pesquisa"
 									value="#{estadoBean.criterio}" />
 								<h:commandButton
@@ -67,86 +65,64 @@
 			</section>
 
 			<!-- 			MegaButtons -->
-			
-			
 			<div class="mt-5 mb-5" id="formEstado">
 				<ui:insert name="formEstado">
 					<ui:include src="_formEstado.xhtml" />
 				</ui:insert>
 			</div>
-			
-			
-			
-			
 
 			<!--           Search Results -->
-
-
-			<c:if test="#{estadoBean.size() > 0}">
+			<c:if test="#{estadoBean.hasBusca()}">
 				<section class="pesquisa-area mt-5 mb-5">
-				<h6>
-					Seus resultados de pesquisa para <span class="text-primary">#{estadoBean.criterio}</span>
-				</h6>
-				<div class="mt-4">
-					<h:form id="actionsForm">
-					<section class="search-area" id="search-area">
-					<c:forEach var="estado" items="#{estadoBean.estadosPorNomeOuUf}">
-						<div class="card mt-3">
-							<div class="card-body">
-								<div class="row">
-									<div class="col-4">
-										<h4>#{estado.nome}</h4>
-									</div>
-									<div class="col-4">
-										<h6></h6>
-										<p>
-											<strong>UF: </strong>#{estado.uf}
-										</p>
-									</div>
-									<div class="col-4 text-right">
-										<div class="actions-area d-flex flex-row justify-content-end">
-												<h:commandButton
-													id="btn-edita"
-													actionListener="#{estadoBean.initAtualizar(estado)}"
-													class="btn btn-warning btn-sm mr-2"
-													update=":formCadastraEstado"
-													process="@this"
-													value="Editar"
-													styleClass="btn btn-warning btn-sm"
-													 />
-												<h:commandButton
-													actionListener="#{estadoBean.remover(estado)}"
-													class="btn btn-danger btn-sm ml-2" 
-													value="Remover"
-													process="@this"
-													update="@form" />
+				
+					<div class="mt-4">
+						<h:form id="actionsForm">
+						<h6 class="alert alert-success">
+							Você tem <h:outputText value="#{estadoBean.size()}"></h:outputText> resultado(s).
+						</h6>
+							<section class="search-area" id="search-area">
+								<c:forEach
+									var="estado"
+									items="#{estadoBean.estadosPorNomeOuUf}">
+										<div class="card mt-3">
+											<div class="card-body">
+												<div class="row">
+													<div class="col-4">
+														<h4><h:outputText value="#{estado.nome}"></h:outputText></h4>
+													</div>
+													<div class="col-4">
+														<p>
+															<strong>UF: </strong><h:outputText value="#{estado.uf}"></h:outputText>
+														</p>
+													</div>
+													<div class="col-4 text-right">
+														<div class="actions-area d-flex flex-row justify-content-end">
+															<h:commandButton
+																id="btn-edita"
+																actionListener="#{estadoBean.initAtualizar(estado)}"
+																class="btn btn-warning btn-sm mr-2"
+																update=":formCadastraEstado" process="@this" value="Editar"
+																styleClass="btn btn-warning btn-sm" />
+															<h:commandButton
+																actionListener="#{estadoBean.remover(estado)}"
+																class="btn btn-danger btn-sm ml-2" value="Remover"
+																process="@this" update="@form" />
+														</div>
+													</div>
+												</div>
+											</div>
 										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</c:forEach>
-					</section>
-					</h:form>
-				</div>
+								</c:forEach>
+							</section>
+						</h:form>
+					</div>
+					
 				</section>
 
 			</c:if>
 
 
-			<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-				integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-				crossorigin="anonymous"></script>
-			<script
-				src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-				integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-				crossorigin="anonymous"></script>
-			<script
-				src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-				integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-				crossorigin="anonymous"></script>
-			<script type="text/javascript"
-				src="#{facesContext.externalContext.requestContextPath}/resources/js/endereco.js"></script>
+			
 		</ui:define>
 
 	</ui:composition>

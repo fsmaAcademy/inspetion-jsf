@@ -85,6 +85,10 @@ public class EstadoBean implements Serializable {
 		this.editForm = true;
 		this.estado = estado;
 	}
+	
+	public boolean hasBusca() {
+		return size() > 0;
+	}
 
 	public void buscarPorId(Long id) {
 		estado = estadoService.buscarPorId(id);
