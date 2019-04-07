@@ -32,13 +32,11 @@ public class EmpresaRepositoryImpl implements Serializable, IEmpresaRepository {
 	@Override
 	public void adiciona(Empresa empresa) {
 		repository.adiciona(empresa);
-		
 	}
 
 	@Override
 	public void atualiza(Empresa empresa) {
 		repository.atualiza(empresa);
-		
 	}
 
 	@Override
@@ -46,14 +44,18 @@ public class EmpresaRepositoryImpl implements Serializable, IEmpresaRepository {
 		repository.remove(empresa);
 	}
 
-	@Override
-	public List<Empresa> busca() {
-		return null;
-	}
 
 	@Override
 	public List<Empresa> busca(String criterio) {
-		return repository.buscar();
+		StringBuilder sb = new StringBuilder();
+		sb.append("SELECT e FROM Empresa e ");
+		sb.append("WHERE ");
+		sb.append("    e.nome LIKE :pCriterio");
+		
+		TypedQuery<Empresa> query = em.createQuery(sb.toString(), Empresa.class);
+		query.setParameter("pCriterio", criterio + "%");
+		
+		return query.getResultList();
 	}
 
 	@Override
@@ -77,25 +79,6 @@ public class EmpresaRepositoryImpl implements Serializable, IEmpresaRepository {
 			return null;
 		}
 		
-	}
-
-	@Override
-	public List<Empresa> buscaPorCriterioEmBairroCidadeEstado(String criterio, Bairro bairro, Cidade cidade, Estado estado) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("SELECT e FROM Empresa e ");
-		sb.append("WHERE ");
-		sb.append("    e.bairro = :pBairro");
-		sb.append("    and e.cidade = :pCidade");
-		sb.append("    and e.estado = :pEstado");
-		sb.append("    and e.nome LIKE :pCriterio");
-		
-		TypedQuery<Empresa> query = em.createQuery(sb.toString(), Empresa.class);
-		query.setParameter("pBairro", bairro);
-		query.setParameter("pCidade", cidade);
-		query.setParameter("pEstado", estado);
-		query.setParameter("pCriterio", criterio + "%");
-		
-		return query.getResultList();
 	}
 
 	@Override

@@ -22,6 +22,27 @@ public class EmpresaServiceImpl  implements Serializable, IEmpresaService {
 	
 	@Override
 	public void adiciona(Empresa empresa) {
+		empresa = setCnpjECep(empresa);
+		empresaRepository.adiciona(empresa);
+	}
+
+	@Override
+	public void atualiza(Empresa empresa) {
+		empresa = setCnpjECep(empresa);
+		empresaRepository.atualiza(empresa);
+	}
+
+	@Override
+	public void remove(Empresa empresa) {
+		empresaRepository.remove(empresa);
+	}
+
+	@Override
+	public List<Empresa> busca(String criterio) {
+		return empresaRepository.busca(criterio);
+	}
+	
+	private Empresa setCnpjECep(Empresa empresa) {
 		empresa.setCnpj(
 				empresa.getCnpj()
 					.trim()
@@ -36,46 +57,7 @@ public class EmpresaServiceImpl  implements Serializable, IEmpresaService {
 					.replace("-", "")
 					.replace(".", "")
 				);
-		empresaRepository.adiciona(empresa);
-	}
-
-	@Override
-	public void atualiza(Empresa empresa) {
-		empresaRepository.atualiza(empresa);
-	}
-
-	@Override
-	public void remove(Empresa empresa) {
-		empresaRepository.remove(empresa);
-	}
-
-	@Override
-	public List<Empresa> busca() {
-		return empresaRepository.busca();
-	}
-
-	@Override
-	public List<Empresa> busca(String criterio) {
-		return empresaRepository.busca(criterio);
-	}
-
-	@Override
-	public Empresa buscaPorId(Long id) {
-		return empresaRepository.buscaPorId(id);
-	}
-
-	@Override
-	public Empresa buscaPorNome(String nome) {
-		return empresaRepository.buscaPorNome(nome);
-	}
-
-	@Override
-	public List<Empresa> buscaPorCriterioEmBairroCidadeEstado(
-			String criterio,
-			Bairro bairro,
-			Cidade cidade,
-			Estado estado) {
-		return empresaRepository.buscaPorCriterioEmBairroCidadeEstado(criterio, bairro, cidade, estado);
+		return empresa;
 	}
 
 }

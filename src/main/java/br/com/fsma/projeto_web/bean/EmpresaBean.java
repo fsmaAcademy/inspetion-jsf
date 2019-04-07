@@ -140,8 +140,6 @@ public class EmpresaBean implements Serializable {
 		empresas.remove(empresa);
 	}
 	
-	
-	
 	private void restartForm() {
 		alertClass = null;
 		editForm = false;
@@ -171,29 +169,9 @@ public class EmpresaBean implements Serializable {
 		empresa.setBairro(bairro);
 	}
 	
-	public void processaBairros() {
-		this.bairros = this.bairroService.buscaPorCidade(cidade);
-	}
-	
 	public void busca() {
 		empresas = empresaService.busca(criterio);
 		System.out.println(empresas);
-	}
-	
-	public void buscaPorId() {
-		empresa = empresaService.buscaPorId(empresa.getId());
-	}
-	
-	public void buscaPorCriterioEmBairroCidadeEstado() {
-		empresas = empresaService.buscaPorCriterioEmBairroCidadeEstado(criterio, bairro, cidade, estado);
-	}
-	
-	public Integer size() {
-		return this.empresas.size();
-	}
-	
-	public boolean isMaiorQuerZero() {
-		return size() > 0;
 	}
 	
 	public boolean hasBusca() {

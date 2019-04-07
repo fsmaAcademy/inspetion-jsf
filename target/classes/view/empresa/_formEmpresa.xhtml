@@ -145,7 +145,7 @@
 							<p:commandButton
 								class="w-100"
 								process="@this"
-								update="@form"
+								update="@all"
 								value="Nova empresa"
 								actionListener="#{empresaBean.adiciona()}" />
 						</c:if>
@@ -154,7 +154,7 @@
 								class="w-100"
 								value="Atualizar empresa"
 								process="@this"
-								update="@form"
+								update="@all"
 								action="#{empresaBean.atualiza}" />
 						</c:if>
 					</div>
