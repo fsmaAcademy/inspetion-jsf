@@ -34,14 +34,6 @@
 		<h:form id="formCadastraEmpresa">
 			<p:panel rendered="#{empresaBean.editForm}" style="padding: 30px;">
 				<h2>Adicionar/Editar nova empresa</h2>
-				<hr class="mb-3" />
-				<c:if test="#{empresaBean.notificationClientService.status}">
-					
-					<p class="alert alert-#{empresaBean.alertClass} text-#{empresaBean.alertClass}">
-						#{empresaBean.notificationClientService.message}
-					</p>
-					
-				</c:if>
 				<div class="form-group">
 					<p:selectOneMenu id="selectEstado" filter="true" value="#{empresaBean.estado}" required="true" style="width=100%">
 						<f:selectItem itemValue="" itemLabel="Estado" noSelectionOption="true" />

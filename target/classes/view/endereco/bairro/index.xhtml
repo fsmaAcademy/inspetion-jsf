@@ -28,6 +28,13 @@
 			
 			<section class="filter-area">
 				<div class="row">
+					<div class="col-12 mb-5">
+						<c:if test="#{bairroBean.notificationClientService.status}">
+							<p class="alert alert-#{bairroBean.alertClass} text-#{bairroBean.alertClass}">
+								<h:outputText value="#{bairroBean.notificationClientService.message}"></h:outputText>
+							</p>
+						</c:if>
+					</div>
 					<div class="col-2">
 						<h1>Bairro</h1>
 					</div>
@@ -56,7 +63,7 @@
 							<div class="row">
 								
 								<div class="col-3">
-									<p:selectOneMenu id="selectEstado" filter="true" value="#{bairroBean.estado}" required="true" styleClass="mr-3">
+									<p:selectOneMenu id="selectEstado" filter="true" value="#{bairroBean.estado}" styleClass="mr-3">
 										<f:selectItem itemValue="" itemLabel="Estado" noSelectionOption="true" />
 									    <f:selectItems value="#{bairroBean.estados}" var="e" itemLabel="#{e.nome}" itemValue="#{e}"/>
 									    <p:ajax
@@ -133,10 +140,6 @@
 
 			<c:if test="#{bairroBean.hasBusca()}">
 				<section class="pesquisa-area mt-5">
-			
-				<c:if test="#{bairroBean.quantidadeDeBairros == 0}">
-					<p class="alert alert-warning">Não há resultados para sua pesquisa</p>
-				</c:if>
 				<c:if test="#{bairroBean.quantidadeDeBairros > 0}">
 					<p class="alert alert-success">
 						#{bairroBean.quantidadeDeBairros} resultados de pesquisa para o estado <span class="text-success">#{bairroBean.estado.nome}</span>

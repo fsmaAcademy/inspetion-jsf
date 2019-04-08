@@ -77,13 +77,15 @@
 				<div class="row">
 					<div class="col-6">
 						<p:commandButton actionListener="#{bairroBean.toggleEditMode()}"
-							class="btn btn-secondary w-100"
+							process="@this"
+							update="@form"
+							class="w-100"
 							value="Cancelar"/>
 					</div>
 					<div class="col-6">
 						<c:if test="#{bairroBean.updateMode == false}">
 							<p:commandButton
-								class="btn btn-primary w-100"
+								class="w-100"
 								process="@this"
 								update="@form"
 								value="Novo Bairro"
@@ -91,7 +93,7 @@
 						</c:if>
 						<c:if test="#{bairroBean.updateMode == true}">
 							<p:commandButton
-								class="btn btn-primary w-100"
+								class="w-100"
 								value="Atualizar Bairro"
 								process="@this"
 								update="@form"

@@ -26,6 +26,13 @@
 		<ui:define name="content">
 			<section class="filter-area">
 				<div class="row">
+					<div class="col-12 mb-5">
+						<c:if test="#{estadoBean.notificationClientService.status}">
+							<p class="alert alert-#{estadoBean.alertClass} text-#{estadoBean.alertClass}">
+								<h:outputText value="#{estadoBean.notificationClientService.message}"></h:outputText>
+							</p>
+						</c:if>
+					</div>
 					<div class="col-2">
 						<h1>Estado</h1>
 					</div>
@@ -47,6 +54,7 @@
 					</div>
 					<div class="col-7">
 						<h:form id="buscaForm">
+							
 							<div class="d-flex flex-row">
 								<h:inputText
 									class="form-control search-box"
@@ -55,7 +63,7 @@
 								<h:commandButton
 									class="btn btn-primary ml-3"
 									value="Pesquisar"
-									actionListener="#{estadoBean.buscaPorCriterio()}"
+									actionListener="#{estadoBean.busca()}"
 									update=":buscaForm" />
 							</div>
 						</h:form>
@@ -83,7 +91,7 @@
 							<section class="search-area" id="search-area">
 								<c:forEach
 									var="estado"
-									items="#{estadoBean.estadosPorNomeOuUf}">
+									items="#{estadoBean.estados}">
 										<div class="card mt-3">
 											<div class="card-body">
 												<div class="row">

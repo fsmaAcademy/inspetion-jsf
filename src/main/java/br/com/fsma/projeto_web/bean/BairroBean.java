@@ -18,6 +18,8 @@ import br.com.fsma.projeto_web.entities.Bairro;
 import br.com.fsma.projeto_web.entities.Cidade;
 import br.com.fsma.projeto_web.entities.Estado;
 import br.com.fsma.projeto_web.tx.Transacional;
+import br.com.fsma.projeto_web.validators.BairroValidator;
+import br.com.fsma.projeto_web.validators.NotificationClientService;
 
 @Named
 @ViewScoped
@@ -50,6 +52,12 @@ public class BairroBean implements Serializable {
 
 	private String criterio;
 	private String nomeBairro;
+	
+	private NotificationClientService notificationClientService;
+	private String alertClass;
+	
+	@Inject
+	private BairroValidator bairroValidator;
 
 	@PostConstruct
 	public void init() {
@@ -70,19 +78,19 @@ public class BairroBean implements Serializable {
 
 	@Transacional
 	public void adiciona() {
-		System.out.println("ADICIONA-----------------------------------");
-		System.out.println("Estado: " + estado.toString());
-		System.out.println("Cidade: " + cidade.toString());
-
 		bairro.setCidade(cidade);
 		bairro.getCidade().setEstado(estado);
-
-		System.out.println("Nome Bairro -----------------------------------" + this.nomeBairro);
-		System.out.println("BAIROOOOOO-----------------------------------");
-		System.out.println(bairro);
-
 		bairro.setNome(nomeBairro);
-
+		
+		this.notificationClientService = bairroValidator.adiciona(bairro);
+		if (this.notificationClientService != null && notificationClientService.isStatus()) {
+			alertClass = new AlertUtil(
+					notificationClientService.getNotificationType()
+					).select();
+			return;
+		}
+		
+		
 		bairroService.adiciona(bairro);
 		this.editForm = false;
 		bairro = new Bairro();
@@ -95,6 +103,16 @@ public class BairroBean implements Serializable {
 		bairro.setCidade(cidade);
 		bairro.getCidade().setEstado(estado);
 		bairro.setNome(nomeBairro);
+		
+		this.notificationClientService = bairroValidator.adiciona(bairro);
+		if (this.notificationClientService != null && notificationClientService.isStatus()) {
+			alertClass = new AlertUtil(
+					notificationClientService.getNotificationType()
+					).select();
+			return null;
+		}
+		
+		
 		bairroService.atualiza(bairro);
 		this.editForm = false;
 		bairro = new Bairro();
@@ -156,14 +174,21 @@ public class BairroBean implements Serializable {
 	}
 
 	public void buscaBairroPorCriterioEmCidadeEstado() {
-		cidade = cidadeService.buscaPorId(cidade.getId());
-		if (nomeBairro == null)
-			criterio = "";
-		else
-			criterio = nomeBairro;
-		System.out.println(this.cidade + "-----------------");
-		System.out.println(this.estado + "-----------------");
-		System.out.println("Criterio -------" + this.criterio + "-----------------");
+		
+		if (nomeBairro == null) {
+			criterio = "";			
+		} else {
+			criterio = nomeBairro;			
+		}
+		
+		this.notificationClientService = bairroValidator.busca(criterio);
+		if (this.notificationClientService != null && notificationClientService.isStatus()) {
+			alertClass = new AlertUtil(
+					notificationClientService.getNotificationType()
+					).select();
+			return;
+		}
+		
 		this.bairros = this.bairroService.buscaBairroPorCriterioEmCidadeEstado(criterio, cidade);
 
 		System.out.println(this.bairros);
@@ -232,5 +257,15 @@ public class BairroBean implements Serializable {
 	public void setNomeBairro(String nomeBairro) {
 		this.nomeBairro = nomeBairro;
 	}
+
+	public NotificationClientService getNotificationClientService() {
+		return notificationClientService;
+	}
+
+	public String getAlertClass() {
+		return alertClass;
+	}
+	
+	
 
 }

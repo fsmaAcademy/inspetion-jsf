@@ -15,6 +15,9 @@ import br.com.fsma.projeto_web.business.EstadoServiceImpl;
 import br.com.fsma.projeto_web.entities.Cidade;
 import br.com.fsma.projeto_web.entities.Estado;
 import br.com.fsma.projeto_web.tx.Transacional;
+import br.com.fsma.projeto_web.validators.CidadeValidator;
+import br.com.fsma.projeto_web.validators.NotificationClientService;
+import br.com.fsma.projeto_web.validators.NotificationType;
 
 @Named
 @ViewScoped
@@ -41,8 +44,21 @@ public class CidadeBean implements Serializable {
 	private boolean updateMode = false;
 	
 	private String criterio;
+
+	private NotificationClientService notificationClientService;
+	
+	@Inject
+	private CidadeValidator cidadeValidator;
+	
+	private String alertClass;
 	
 
+	public NotificationClientService getNotificationClientService() {
+		return notificationClientService;
+	}
+	public String getAlertClass() {
+		return alertClass;
+	}
 	@PostConstruct
 	public void init() {
 		if (cidade == null) {
@@ -55,7 +71,23 @@ public class CidadeBean implements Serializable {
 	}
 	@Transacional
 	public void adiciona() {
+		if (estado.getId() != null) {
+			estado = estadoService.buscarPorId(estado.getId());			
+		}
 		cidade.setEstado(estado);
+		
+		notificationClientService = cidadeValidator.adiciona(cidade);
+		if (notificationClientService != null && notificationClientService.isStatus()) {
+			alertClass = new AlertUtil(
+					notificationClientService.getNotificationType()
+					).select();
+			return;
+		} else {
+			alertClass = new AlertUtil(
+					notificationClientService.getNotificationType()
+					).select();
+		}
+		
 		cidadeService.adiciona(cidade);
 		cidade = new Cidade();
 		this.editForm = false;
@@ -63,7 +95,23 @@ public class CidadeBean implements Serializable {
 	
 	@Transacional
 	public String atualiza() {
+		
+		if (estado.getId() != null) {
+			estado = estadoService.buscarPorId(estado.getId());			
+		}
 		cidade.setEstado(estado);
+		
+		notificationClientService = cidadeValidator.atualiza(cidade);
+		if (notificationClientService != null && notificationClientService.isStatus()) {
+			alertClass = new AlertUtil(
+					notificationClientService.getNotificationType()
+					).select();
+			return null;
+		} else {
+			alertClass = new AlertUtil(
+					notificationClientService.getNotificationType()
+					).select();
+		}
 		cidadeService.atualiza(cidade);
 		this.editForm = false;
 		return "/view/endereco/estado/index.xhtml?faces-redirect=true";
@@ -105,7 +153,14 @@ public class CidadeBean implements Serializable {
 	}
 	
 	public void buscaPorCidadeEmEstadoPorCriterio() {
-		this.estado = this.estadoService.buscarPorId(estado.getId());
+		notificationClientService = cidadeValidator.busca(criterio);
+		if (notificationClientService != null && notificationClientService.isStatus()) {
+			alertClass = new AlertUtil(
+					notificationClientService.getNotificationType()
+					).select();
+			return;
+		}
+		estado = estadoService.buscarPorId(estado.getId());
 		this.cidades = this.cidadeService.buscaCidadePorEstadoPorCriterio(criterio, estado);
 	}
 

@@ -28,6 +28,13 @@
 			
 			<section class="filter-area">
 				<div class="row">
+					<div class="col-12 mb-5">
+						<c:if test="#{cidadeBean.notificationClientService.status}">
+							<p class="alert alert-#{cidadeBean.alertClass} text-#{cidadeBean.alertClass}">
+								<h:outputText value="#{cidadeBean.notificationClientService.message}"></h:outputText>
+							</p>
+						</c:if>
+					</div>
 					<div class="col-2">
 						<h1>Cidade</h1>
 					</div>
@@ -87,9 +94,6 @@
 			<c:if test="#{cidadeBean.hasBusca()}">
 				<section class="pesquisa-area mt-5">
 			
-				<c:if test="#{cidadeBean.quantidadeDeCidades == 0}">
-					<p class="alert alert-warning">Não há resultados para sua pesquisa</p>
-				</c:if>
 				<c:if test="#{cidadeBean.quantidadeDeCidades > 0}">
 					<p class="alert alert-success">
 						#{cidadeBean.quantidadeDeCidades} resultados de pesquisa para o estado <span class="text-success">#{cidadeBean.estado.nome}</span>

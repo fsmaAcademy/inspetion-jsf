@@ -86,14 +86,10 @@ public class EmpresaBean implements Serializable {
 	@Transacional
 	public void adiciona() {
 		notificationClientService = empresaValidator.adiciona(empresa);
-		if (notificationClientService.isStatus()) {
-			if (notificationClientService.getNotificationType() == NotificationType.Success) {
-				alertClass = "success";
-			} else if (notificationClientService.getNotificationType() == NotificationType.Warning) {
-				alertClass = "warning";				
-			} else {
-				alertClass = "danger";				
-			}
+		if (notificationClientService.isStatus() || notificationClientService != null) {
+			alertClass = new AlertUtil(
+					notificationClientService.getNotificationType()
+					).select();
 			return;
 		}
 		
@@ -125,22 +121,15 @@ public class EmpresaBean implements Serializable {
 	}
 	
 	@Transacional
-	public String atualiza() {
-		
-		
+	public String atualiza() {		
 		notificationClientService = empresaValidator.atualiza(empresa);
-		if (notificationClientService.isStatus()) {
-			if (notificationClientService.getNotificationType() == NotificationType.Success) {
-				alertClass = "success";
-			} else if (notificationClientService.getNotificationType() == NotificationType.Warning) {
-				alertClass = "warning";				
-			} else {
-				alertClass = "danger";				
-			}
+		if (notificationClientService.isStatus() || notificationClientService != null) {
+			alertClass = new AlertUtil(
+					notificationClientService.getNotificationType()
+					).select();
 			return null;
 		}
-		
-		
+
 		empresa.setBairro(bairro);
 		empresa.setCidade(cidade);
 		empresa.setEstado(estado);
@@ -198,6 +187,16 @@ public class EmpresaBean implements Serializable {
 	}
 	
 	public void busca() {
+		
+		notificationClientService = empresaValidator.busca(criterio);
+		if (notificationClientService.isStatus() || notificationClientService != null) {
+			alertClass = new AlertUtil(
+					notificationClientService.getNotificationType()
+					).select();
+			return;
+		}
+		
+		
 		empresas = empresaService.busca(criterio);
 		System.out.println(empresas);
 	}

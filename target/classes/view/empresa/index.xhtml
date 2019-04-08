@@ -28,6 +28,16 @@
 			
 			<section class="filter-area">
 				<div class="row">
+					<div class="col-12">
+					<hr class="mb-3" />
+						<c:if test="#{empresaBean.notificationClientService.status}">
+							
+							<p class="alert alert-#{empresaBean.alertClass} text-#{empresaBean.alertClass}">
+								#{empresaBean.notificationClientService.message}
+							</p>
+							
+						</c:if>
+					</div>
 					<div class="col-2">
 						<h1>Empresa</h1>
 					</div>

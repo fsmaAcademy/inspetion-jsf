@@ -6,6 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import br.com.fsma.projeto_web.validators.NotificationClientService;
+
 import java.io.Serializable;
 
 @Entity

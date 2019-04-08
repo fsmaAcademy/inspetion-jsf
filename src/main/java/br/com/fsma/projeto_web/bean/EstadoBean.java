@@ -5,16 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
 
 import br.com.fsma.projeto_web.business.EstadoServiceImpl;
 import br.com.fsma.projeto_web.entities.Estado;
 import br.com.fsma.projeto_web.tx.Transacional;
+import br.com.fsma.projeto_web.validators.EstadoValidator;
+import br.com.fsma.projeto_web.validators.NotificationClientService;
 
 @Named
 @ViewScoped
@@ -33,24 +32,48 @@ public class EstadoBean implements Serializable {
 	
 	private String criterio;
 	
+	private NotificationClientService notificationClientService;
+	
+	@Inject
+	private EstadoValidator estadoValidator;
+	private String alertClass;
+	private boolean hasBusca = false;
+	
 
 	@PostConstruct
 	public void init() {
 		if (estado == null) {
 			estado = new Estado();
 		}
-		System.out.println("----------------->>>> EstadoBean.Init()");
 	}
 
 	@Transacional
 	public void adiciona() {
+		notificationClientService = estadoValidator.adiciona(estado);
+		if (notificationClientService != null && notificationClientService.isStatus()) {
+			alertClass = new AlertUtil(
+					notificationClientService.getNotificationType()
+					).select();
+			return;
+		} else {
+			alertClass = new AlertUtil(
+					notificationClientService.getNotificationType()
+					).select();
+		}
 		estadoService.adiciona(estado);
 		estado = new Estado();
 		this.editForm = false;
 	}
-	
+
 	@Transacional
 	public String atualiza() {
+		notificationClientService = estadoValidator.atualiza(estado);
+		if (notificationClientService != null && notificationClientService.isStatus()) {
+			alertClass = new AlertUtil(
+					notificationClientService.getNotificationType()
+					).select();
+			return null;
+		}
 		estadoService.atualizar(estado);
 		this.editForm = false;
 		return "/view/endereco/estado/index.xhtml?faces-redirect=true";
@@ -71,8 +94,9 @@ public class EstadoBean implements Serializable {
 	}
 	
 	public void initAdiciona() {
-		this.updateMode = false;
-		this.editForm = true;
+		hasBusca = false;
+		updateMode = false;
+		editForm = true;
 		estado = new Estado();
 	}
 	
@@ -81,29 +105,30 @@ public class EstadoBean implements Serializable {
 	}
 
 	public void initAtualizar(Estado estado) {
-		this.updateMode = true;
-		this.editForm = true;
+		hasBusca = false;
+		updateMode = true;
+		editForm = true;
 		this.estado = estado;
 	}
 	
 	public boolean hasBusca() {
-		return size() > 0;
-	}
-
-	public void buscarPorId(Long id) {
-		estado = estadoService.buscarPorId(id);
+		return this.hasBusca;
 	}	
 	
 	public List<Estado> getEstadosPorNomeOuUf() {
-		return estadoService.buscarPorNomeOuUf(this.criterio);
+		return estadoService.buscarPorNomeOuUf(criterio);
 	}
 	
-	public void buscaPorCriterio() {		
-		this.estados = this.getEstadosPorNomeOuUf();
-	}
-
-	public void buscarPorUf(String uf) {
-		estado = estadoService.buscarPorUf(uf);
+	public void busca() {
+		notificationClientService = estadoValidator.busca(criterio);
+		if (notificationClientService != null && notificationClientService.isStatus()) {
+			alertClass = new AlertUtil(
+					notificationClientService.getNotificationType()
+					).select();
+			return;
+		}
+		hasBusca = true;
+		estados = estadoService.buscarPorNomeOuUf(criterio);
 	}
 
 	public Estado getEstado() {
@@ -115,7 +140,7 @@ public class EstadoBean implements Serializable {
 	}
 
 	public List<Estado> getEstados() {
-		return estadoService.buscar();
+		return this.estados;
 	}
 
 	public String getCriterio() {
@@ -128,6 +153,14 @@ public class EstadoBean implements Serializable {
 	
 	public int size() {
 		return this.estados.size();
+	}
+
+	public NotificationClientService getNotificationClientService() {
+		return notificationClientService;
+	}
+	
+	public String getAlertClass() {
+		return alertClass;
 	}
 	
 	

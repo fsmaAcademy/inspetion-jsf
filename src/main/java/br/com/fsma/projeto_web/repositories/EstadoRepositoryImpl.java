@@ -101,7 +101,23 @@ public class EstadoRepositoryImpl implements Serializable, IEstadoRepository {
 
 	@Override
 	public boolean existe(Estado estado) {
-		return buscaPorUf(estado.getUf()) != null;
+		StringBuilder sb = new StringBuilder();
+		sb.append(" select e from Estado e ");
+		sb.append(" where ");
+		sb.append("   e.uf = :puf");
+		sb.append("   and e.nome = :pNome");
+		
+		TypedQuery<Estado> query = em.createQuery(sb.toString(), Estado.class);
+		
+		query.setParameter("puf", estado.getUf());
+		query.setParameter("pNome", estado.getNome());
+
+		try {
+			estado = query.getSingleResult();
+			return estado != null;
+		} catch (NoResultException ex) {
+			return false;
+		}
 	}
 
 	@Override
