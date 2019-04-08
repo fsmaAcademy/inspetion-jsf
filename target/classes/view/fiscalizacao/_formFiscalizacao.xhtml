@@ -35,13 +35,6 @@
 			<p:panel rendered="#{fiscalizacaoBean.editForm}" style="padding: 30px;">
 				<h2>Adicionar/Editar nova Fiscalização</h2>
 				<hr class="mb-3" />
-				<c:if test="#{fiscalizacaoBean.notificationClientService.status}">
-					
-					<p class="alert alert-#{fiscalizacaoBean.alertClass} text-#{fiscalizacaoBean.alertClass}">
-						#{fiscalizacaoBean.notificationClientService.message}
-					</p>
-					
-				</c:if>
 				<span class="badge badge-primary mb-5">
 					<h:outputText value="Data do registro: #{fiscalizacaoBean.fiscalizacao.data}">
 							<f:convertDateTime pattern="dd/MM/yyyy" />

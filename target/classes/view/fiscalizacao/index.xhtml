@@ -24,16 +24,18 @@
 	<ui:composition template="../templates/template.xhtml">
 
 		<ui:define name="content">
-
-		<c:if test="#{fiscalizacaoBean.hasNotification()}">
-			  <div class="alert alert-success">
-			    #{fiscalizacaoBean.notificationClientService.message}
-			  </div>
-		</c:if>
-
-			
 			<section class="filter-area">
 				<div class="row">
+				<div class="col-12">
+					<hr class="mb-3" />
+						<c:if test="#{fiscalizacaoBean.notificationClientService.status}">
+							
+							<p class="alert alert-#{fiscalizacaoBean.alertClass} text-#{fiscalizacaoBean.alertClass}">
+								#{fiscalizacaoBean.notificationClientService.message}
+							</p>
+							
+						</c:if>
+					</div>
 					<div class="col-6">
 						<h1>Fiscalização</h1>
 					</div>

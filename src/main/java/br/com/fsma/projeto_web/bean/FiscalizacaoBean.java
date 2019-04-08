@@ -23,6 +23,7 @@ import br.com.fsma.projeto_web.entities.Estado;
 import br.com.fsma.projeto_web.entities.Fiscalizacao;
 import br.com.fsma.projeto_web.tx.Transacional;
 import br.com.fsma.projeto_web.util.DateUtils;
+import br.com.fsma.projeto_web.validators.FiscalizacaoValidator;
 import br.com.fsma.projeto_web.validators.NotificationClientService;
 
 @Named
@@ -66,6 +67,9 @@ public class FiscalizacaoBean implements Serializable {
 	private Date dataInicio;
 	private Date dataFim;
 	private boolean temBusca = false;
+
+	@Inject
+	private FiscalizacaoValidator fiscalizacaoValidator;
 	
 	@PostConstruct
 	void init() {
@@ -99,13 +103,18 @@ public class FiscalizacaoBean implements Serializable {
 	
 	@Transacional
 	public void adiciona() {
-		setTemBusca(false);
+		
 		fiscalizacao.setEstado(
 				estadoService.buscarPorId(estado.getId())
 				);
 		fiscalizacao.setCidade(cidade);
 		fiscalizacao.setBairro(bairro);
 		fiscalizacao.setEmpresa(empresa);
+		
+		
+		
+		setTemBusca(false);
+		
 		fiscalizacaoService.adiciona(fiscalizacao);
 		bairro = new Bairro();
 		cidade = new Cidade();
@@ -116,7 +125,15 @@ public class FiscalizacaoBean implements Serializable {
 	
 	public void busca() {
 		setTemBusca(true);
-		System.out.println(dataInicio + "  " + dataFim);
+		
+		notificationClientService = fiscalizacaoValidator.busca(dataInicio, dataFim);
+		if (notificationClientService != null && notificationClientService.isStatus()) {
+			alertClass = new AlertUtil(
+					notificationClientService.getNotificationType()
+					).select();
+			return;
+		}
+		
 		if (criterio.isEmpty() || criterio == null) {
 			this.fiscalizacoes = fiscalizacaoService.busca(
 					DateUtils.asLocalDate(dataInicio),
@@ -150,6 +167,7 @@ public class FiscalizacaoBean implements Serializable {
 		fiscalizacao.setCidade(cidade);
 		fiscalizacao.setBairro(bairro);
 		fiscalizacao.setEmpresa(empresa);
+		
 		System.out.println("atualizando..." + fiscalizacao);
 		fiscalizacaoService.atualiza(fiscalizacao);
 		return "/view/fiscalizacao/index.xhtml?faces-redirect=true";
