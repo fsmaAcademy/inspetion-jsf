@@ -123,7 +123,7 @@ public class EmpresaValidator implements Serializable, IValidator<Empresa> {
 					NotificationType.Danger);
 		}
 
-		return new NotificationClientService("", false, null);
+		return null;
 	}
 	
 	@Override

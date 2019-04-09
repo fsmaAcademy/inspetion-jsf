@@ -69,6 +69,7 @@ public class CidadeBean implements Serializable {
 			estado = new Estado();
 		}
 	}
+	
 	@Transacional
 	public void adiciona() {
 		if (estado.getId() != null) {

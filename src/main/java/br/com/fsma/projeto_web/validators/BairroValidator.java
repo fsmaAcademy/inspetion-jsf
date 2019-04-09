@@ -3,17 +3,22 @@ package br.com.fsma.projeto_web.validators;
 import java.io.Serializable;
 
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.fsma.projeto_web.entities.Bairro;
 import br.com.fsma.projeto_web.entities.Cidade;
 import br.com.fsma.projeto_web.entities.Estado;
+import br.com.fsma.projeto_web.repositories.BairroRepositoryImpl;
 
 @Named
 @RequestScoped
 public class BairroValidator implements Serializable, IValidator<Bairro> {
 
 	private static final long serialVersionUID = 1L;
+	
+	@Inject
+	private BairroRepositoryImpl bairroRepository;
 
 	@Override
 	public NotificationClientService busca(String criterio) {
@@ -59,7 +64,7 @@ public class BairroValidator implements Serializable, IValidator<Bairro> {
 	@Override
 	public NotificationClientService adiciona(Bairro bairro) {
 		
-		if (bairro.getCidade().getEstado() == null) {
+		if (bairro.getCidade().getEstado().getId() == null) {
 			return new NotificationClientService(
 					"Selecione um estado, por favor.",
 					true,
@@ -80,12 +85,11 @@ public class BairroValidator implements Serializable, IValidator<Bairro> {
 			bairro.getNome().length() < 3
 			) {
 				return new NotificationClientService(
-						"Campo nome da cidade está vazio",
+						"Campo nome do bairro está vazio",
 						true,
 						NotificationType.Warning
 						);
 		}
-		
 		
 		return null;
 	}

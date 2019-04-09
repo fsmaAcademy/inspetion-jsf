@@ -86,7 +86,7 @@ public class EmpresaBean implements Serializable {
 	@Transacional
 	public void adiciona() {
 		notificationClientService = empresaValidator.adiciona(empresa);
-		if (notificationClientService.isStatus() || notificationClientService != null) {
+		if (notificationClientService != null && notificationClientService.isStatus()) {
 			alertClass = new AlertUtil(
 					notificationClientService.getNotificationType()
 					).select();
@@ -123,7 +123,7 @@ public class EmpresaBean implements Serializable {
 	@Transacional
 	public String atualiza() {		
 		notificationClientService = empresaValidator.atualiza(empresa);
-		if (notificationClientService.isStatus() || notificationClientService != null) {
+		if (notificationClientService != null && notificationClientService.isStatus()) {
 			alertClass = new AlertUtil(
 					notificationClientService.getNotificationType()
 					).select();
@@ -189,7 +189,7 @@ public class EmpresaBean implements Serializable {
 	public void busca() {
 		
 		notificationClientService = empresaValidator.busca(criterio);
-		if (notificationClientService.isStatus() || notificationClientService != null) {
+		if (notificationClientService != null && notificationClientService.isStatus()) {
 			alertClass = new AlertUtil(
 					notificationClientService.getNotificationType()
 					).select();
