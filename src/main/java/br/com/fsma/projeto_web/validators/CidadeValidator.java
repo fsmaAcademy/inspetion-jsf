@@ -84,4 +84,10 @@ public class CidadeValidator implements Serializable, IValidator<Cidade> {
 		return this.adiciona(cidade);
 	}
 
+	@Override
+	public NotificationClientService remove(Cidade t) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

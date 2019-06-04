@@ -61,18 +61,9 @@ public class BairroBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		if (bairro == null) {
-			bairro = new Bairro();
-		}
-
-		if (cidade == null) {
-			cidade = new Cidade();
-		}
-
-		if (estado == null) {
-			estado = new Estado();
-		}
-
+		bairro = new Bairro();
+		cidade = new Cidade();
+		estado = new Estado();
 		// this.bairros = this.estadoService.buscar();
 	}
 

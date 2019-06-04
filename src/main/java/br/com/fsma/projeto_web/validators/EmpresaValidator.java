@@ -139,4 +139,10 @@ public class EmpresaValidator implements Serializable, IValidator<Empresa> {
 		}
 		return null;
 	}
+
+	@Override
+	public NotificationClientService remove(Empresa t) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

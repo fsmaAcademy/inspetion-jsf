@@ -2,12 +2,18 @@ package br.com.fsma.projeto_web.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -33,7 +39,7 @@ public class Fiscalizacao implements Serializable {
 
 	@Column(name = "cep", length = 9, nullable = false)
 	private String cep;
-	
+
 	@ManyToOne
 	private Bairro bairro;
 
@@ -42,9 +48,33 @@ public class Fiscalizacao implements Serializable {
 
 	@ManyToOne
 	private Estado estado;
-	
+
 	@ManyToOne
 	private Empresa empresa;
+
+	@ManyToMany
+	@JoinTable(
+		   name="tb_fiscalizacao_fiscal",
+		   joinColumns=@JoinColumn(name="fiscalizacao_id", referencedColumnName="id"),
+		   inverseJoinColumns=@JoinColumn(name="fiscal_id", referencedColumnName="id"))
+	private Set<Fiscal> fiscais;
+
+	
+	@ManyToMany
+	@JoinTable(
+			name="tb_fiscalizacao_ocorrencia",
+			joinColumns=@JoinColumn(name="fiscalizacao_id", referencedColumnName="id"),
+			inverseJoinColumns=@JoinColumn(name="ocorrencia_id", referencedColumnName="id"))
+	private Set<Ocorrencia> ocorrencias;
+
+	
+	public Set<Fiscal> getFiscais() {
+		return fiscais;
+	}
+
+	public void setFiscais(Set<Fiscal> fiscais) {
+		this.fiscais = fiscais;
+	}
 
 	public Long getId() {
 		return id;
@@ -119,13 +149,6 @@ public class Fiscalizacao implements Serializable {
 	}
 
 	@Override
-	public String toString() {
-		return "Fiscalizacao [id=" + id + ", data=" + data + ", nome=" + nome + ", logradouro=" + logradouro + ", cep="
-				+ cep + ", bairro=" + bairro + ", cidade=" + cidade + ", estado=" + estado + ", empresa=" + empresa
-				+ "]";
-	}
-
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -149,7 +172,16 @@ public class Fiscalizacao implements Serializable {
 			return false;
 		return true;
 	}
+
+	public Set<Ocorrencia> getOcorrencias() {
+		return ocorrencias;
+	}
+
+	public void setOcorrencias(Set<Ocorrencia> ocorrencias) {
+		this.ocorrencias = ocorrencias;
+	}
+
+
 	
-	
-	
+
 }

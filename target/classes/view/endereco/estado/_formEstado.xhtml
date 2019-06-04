@@ -59,12 +59,16 @@
 							<h:commandButton
 								class="btn btn-primary w-100"
 								value="Novo Estado"
+								process="@this"
+								update="@all"
 								actionListener="#{estadoBean.adiciona}" />					
 						</c:if>
 						<c:if test="#{estadoBean.updateMode == true}">
 							<h:commandButton
 								class="btn btn-primary w-100"
 								value="Atualizar Estado"
+								process="@this"
+								update="@all"
 								actionListener="#{estadoBean.atualiza}" />					
 						</c:if>
 					</div>

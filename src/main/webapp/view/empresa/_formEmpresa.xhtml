@@ -35,7 +35,7 @@
 			<p:panel rendered="#{empresaBean.editForm}" style="padding: 30px;">
 				<h2>Adicionar/Editar nova empresa</h2>
 				<div class="form-group">
-					<p:selectOneMenu id="selectEstado" filter="true" value="#{empresaBean.estado}" required="true" style="width=100%">
+					<p:selectOneMenu id="selectEstado" filter="true" value="#{empresaBean.estado}" required="true" style="width=100%;">
 						<f:selectItem itemValue="" itemLabel="Estado" noSelectionOption="true" />
 					    <f:selectItems value="#{empresaBean.estados}" var="e" itemLabel="#{e.nome}" itemValue="#{e}"/>
 					    <p:ajax

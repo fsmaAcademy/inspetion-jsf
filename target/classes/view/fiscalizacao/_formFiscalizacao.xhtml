@@ -131,6 +131,20 @@
 							    listener="#{fiscalizacaoBean.fiscalizacao.cep}" />
 						</p:inputMask>
 				</div>
+
+				<div class="form-group">
+					<p:outputLabel for="fiscais" value="Fiscais" />
+			        <p:selectManyMenu id="fiscais" value="#{fiscalizacaoBean.fiscais}"
+			                          var="f" filter="true" filterMatchMode="contains" showCheckbox="true">
+			            <f:selectItems value="#{fiscalizacaoBean.fiscais}" var="fi" itemLabel="#{fi.nome}" itemValue="#{fi}" />
+			             
+			            <p:column>
+			                <h:outputText value="#{f.nome}" />
+			            </p:column>
+			        </p:selectManyMenu>
+				</div>
+				
+				
 				
 				<div class="row">
 					<div class="col-6">

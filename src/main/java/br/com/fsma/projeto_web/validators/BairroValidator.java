@@ -99,4 +99,10 @@ public class BairroValidator implements Serializable, IValidator<Bairro> {
 		return this.adiciona(bairro);
 	}
 
+	@Override
+	public NotificationClientService remove(Bairro t) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

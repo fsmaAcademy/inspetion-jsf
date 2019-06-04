@@ -117,4 +117,11 @@ public class FiscalizacaoValidator implements Serializable, IValidator<Fiscaliza
 		return this.adiciona(fiscalizacao);
 	}
 
+
+	@Override
+	public NotificationClientService remove(Fiscalizacao t) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

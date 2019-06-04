@@ -57,24 +57,13 @@ public class EmpresaBean implements Serializable {
 	private String criterio;
 	private String alertClass;
 	private NotificationClientService notificationClientService;
-
+	
 	@PostConstruct
 	void init() {
-		if (empresa == null) {
-			empresa = new Empresa();
-		}
-
-		if (cidade == null) {
-			cidade = new Cidade();
-		}
-
-		if (estado == null) {
-			estado = new Estado();
-		}
-
-		if (bairro == null) {
-			bairro = new Bairro();
-		}
+		empresa = new Empresa();
+		cidade = new Cidade();
+		estado = new Estado();
+		bairro = new Bairro();
 	}
 
 	public void initAdiciona() {
@@ -111,13 +100,20 @@ public class EmpresaBean implements Serializable {
 		return this.notificationClientService != null;
 	}
 	
+	@Transacional
 	public void initAtualiza(Empresa empresa) {
 		updateMode = true;
 		editForm = true;
+		this.empresa = empresaService.buscaPorId(empresa.getId());
 		this.bairro = this.empresa.getBairro();
 		this.cidade = this.empresa.getCidade();
 		this.estado = this.empresa.getEstado();
-		this.empresa = empresa;
+
+		this.estados = estadoService.buscar();
+		this.cidades = cidadeService.buscaPorEstado(estado);
+		this.bairros = bairroService.buscaPorCidade(cidade);
+		
+		System.out.println(estado);
 	}
 	
 	@Transacional

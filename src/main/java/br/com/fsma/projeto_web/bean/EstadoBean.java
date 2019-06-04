@@ -42,9 +42,8 @@ public class EstadoBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		if (estado == null) {
-			estado = new Estado();
-		}
+		estado = new Estado();
+		
 	}
 
 	@Transacional

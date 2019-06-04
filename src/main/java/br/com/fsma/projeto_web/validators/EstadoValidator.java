@@ -82,5 +82,11 @@ public class EstadoValidator implements Serializable, IValidator<Estado> {
 		}
 		return null;
 	}
+
+	@Override
+	public NotificationClientService remove(Estado t) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

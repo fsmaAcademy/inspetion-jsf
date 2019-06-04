@@ -15,11 +15,13 @@ import br.com.fsma.projeto_web.business.BairroServiceImpl;
 import br.com.fsma.projeto_web.business.CidadeServiceImpl;
 import br.com.fsma.projeto_web.business.EmpresaServiceImpl;
 import br.com.fsma.projeto_web.business.EstadoServiceImpl;
+import br.com.fsma.projeto_web.business.FiscalServiceImpl;
 import br.com.fsma.projeto_web.business.FiscalizacaoServiceImpl;
 import br.com.fsma.projeto_web.entities.Bairro;
 import br.com.fsma.projeto_web.entities.Cidade;
 import br.com.fsma.projeto_web.entities.Empresa;
 import br.com.fsma.projeto_web.entities.Estado;
+import br.com.fsma.projeto_web.entities.Fiscal;
 import br.com.fsma.projeto_web.entities.Fiscalizacao;
 import br.com.fsma.projeto_web.tx.Transacional;
 import br.com.fsma.projeto_web.util.DateUtils;
@@ -47,17 +49,21 @@ public class FiscalizacaoBean implements Serializable {
 	@Inject
 	private EstadoServiceImpl estadoService;
 	
+	@Inject
+	private FiscalServiceImpl fiscalService;
+	
 	private Fiscalizacao fiscalizacao;
 	private Empresa empresa;
 	private Bairro bairro;
 	private Cidade cidade;
 	private Estado estado;
 	
-	private List<Fiscalizacao> fiscalizacoes = new ArrayList<>();;
-	private List<Empresa> empresas = new ArrayList<>();;
-	private List<Bairro> bairros = new ArrayList<>();;
-	private List<Cidade> cidades = new ArrayList<>();;
-	private List<Estado> estados = new ArrayList<>();;
+	private List<Fiscalizacao> fiscalizacoes = new ArrayList<>();
+	private List<Empresa> empresas = new ArrayList<>();
+	private List<Bairro> bairros = new ArrayList<>();
+	private List<Cidade> cidades = new ArrayList<>();
+	private List<Estado> estados = new ArrayList<>();
+	private List<Fiscal> fiscais = new ArrayList<>();
 	
 	private boolean editForm = false;
 	private boolean updateMode = false;
@@ -330,6 +336,14 @@ public class FiscalizacaoBean implements Serializable {
 
 	public void setTemBusca(boolean temBusca) {
 		this.temBusca = temBusca;
+	}
+
+	public List<Fiscal> getFiscais() {
+		return this.fiscalService.buscar();
+	}
+
+	public void setFiscais(List<Fiscal> fiscais) {
+		this.fiscais = fiscais;
 	}
 
 	
